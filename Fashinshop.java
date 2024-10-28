@@ -42,6 +42,16 @@ class CustomerCollection{
         return OderID;
     }
 
+	public boolean validateContact(String contact){
+		
+		if (contact.length() != 10 || contact.charAt(0) != '0') {
+			return false;
+		}else{
+			return true;
+		}
+		
+	}
+
 	public double getamount(String tshirtsize,int QTY){
 		amount=0;
 		switch (tshirtsize) {

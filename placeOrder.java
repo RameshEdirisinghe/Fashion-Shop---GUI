@@ -82,7 +82,12 @@ class placeOrder extends JFrame{
         txtNumber=new JTextField(20);
         txtNumber.setFont(new Font("",1,20));
         TextNumberPanel.add("Left",txtNumber);
-        TextPanel.add(TextNumberPanel);
+        // boolean isvalid = cus.validateContact(txtNumber.getText());
+        // TextPanel.add(TextNumberPanel);
+        // if (!isvalid) {
+        //     JOptionPane.showMessageDialog(null,"Invalid Number.......");
+        //     txtNumber.setText("");
+        // }
 
         JPanel txtTshirtSizePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         txtTshirtSize=new JTextField(20);
@@ -99,8 +104,8 @@ class placeOrder extends JFrame{
         JPanel txtamountPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         txtamount=new JTextField(20);
         txtamount.setFont(new Font("",1,20));
-        int qty = Integer.parseInt(txtQty.getText());
-        cus.getamount(txtTshirtSize.getText(),qty );
+        // int qty = Integer.parseInt(txtQty.getText());
+        // cus.getamount(txtTshirtSize.getText(),qty );
         txtamountPanel.add("Left",txtamount);
         TextPanel.add(txtamountPanel);
 
