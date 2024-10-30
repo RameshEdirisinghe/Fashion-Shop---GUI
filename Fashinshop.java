@@ -6,10 +6,9 @@ import java.util.*;
 
 class Fashionshop {
 
-	
     public static void main(String[] args) {
-        CustomerCollection cus=new CustomerCollection();
-        new HomePage(cus).setVisible(true);
+        CustomerCollection cus = new CustomerCollection();
+		new HomePage(cus).setVisible(true);
         
     }
 
@@ -18,14 +17,29 @@ class Fashionshop {
 class CustomerCollection{
     private Customer[] customerArray;
     private String OderID;
-	private int orderNumber=0;
+	public int orderNumber=1;
 	private double amount;
+
+	int tempMcount;
+	int tempXScount;
+	int tempScount;
+	int tempLcount;
+	int tempXLcount;
+	int tempXXLcount;
+
+	double Mamount;
+	double XSamount;
+	double Samount;
+	double Lamount;
+	double XLamount;
+	double XXLamount;
+	double Totalamount;
 	
 	CustomerCollection(){
 		customerArray=new Customer[0];
 	}
     public String getOrderId(){
-		orderNumber++;
+		
 		int tempOrderNumber = orderNumber;
         int[] tempNumOrder = new int[5];
         String idNum = "";
@@ -51,6 +65,14 @@ class CustomerCollection{
 		}
 		
 	}
+	public Boolean validateTsize(String tshirtsize){
+		if (!(tshirtsize.equals("XS") || tshirtsize.equals("S") || tshirtsize.equals("L") || tshirtsize.equals("XL")|| tshirtsize.equals("M") || tshirtsize.equals("XXL"))) {
+
+            return false;
+        }else{
+			return true;
+		}
+	}
 
 	public double getamount(String tshirtsize,int QTY){
 		amount=0;
@@ -74,21 +96,50 @@ class CustomerCollection{
             default:
                 break;
         }
-        System.out.println("Amount : " + amount);
 		return amount;
 	}
 	public boolean addCustomer(Customer customer){
 		extendsArray();
 		customerArray[customerArray.length-1]=customer;
 		return true;
+
+		
 	}
-	public Customer searchCustomer(String id){
-		for (int i = 0; i <customerArray.length; i++){
-			if(customerArray[i].getId().equalsIgnoreCase(id)){
-				return customerArray[i];
-			}
-		}
-		return null;
+	public boolean searchCustomer(String num){
+		boolean isCorrect = false;
+    
+        for (int i = 0; i < customerArray.length; i++) {
+    
+            if (num.equals(customerArray[i].getNumber())) {
+                isCorrect = true;
+                if (customerArray[i].getTshirtSize().equals("M")) {
+                    tempMcount += customerArray[i].getQty();
+                } else if (customerArray[i].getTshirtSize().equals("XS")) {
+                    tempXScount += customerArray[i].getQty();
+                } else if (customerArray[i].getTshirtSize().equals("S")) {
+                    tempScount += customerArray[i].getQty();
+                } else if (customerArray[i].getTshirtSize().equals("L")) {
+                    tempLcount += customerArray[i].getQty();
+                } else if (customerArray[i].getTshirtSize().equals("XL")) {
+                    tempXLcount += customerArray[i].getQty();
+                } else if (customerArray[i].getTshirtSize().equals("XXL")) {
+                    tempXXLcount += customerArray[i].getQty();
+                }
+            }
+    
+        }
+		
+		
+		Mamount = tempMcount * 900;
+        XLamount = tempXLcount * 1100;
+        XXLamount = tempXXLcount * 1200;
+        XSamount = tempXScount * 600;
+        Samount = tempScount * 800;
+        Lamount = tempLcount * 1000;
+        Totalamount = Mamount + XLamount + XXLamount + XSamount + Samount + Lamount;
+
+		return isCorrect;
+		
 	}
 	private void extendsArray(){
 		Customer[] tempCustomerArray=new Customer[customerArray.length+1];
@@ -98,12 +149,14 @@ class CustomerCollection{
 		customerArray=tempCustomerArray;
 	}	
 	public void printCustomers(){
-		System.out.printf("%-8s%-15s%-20s%10s\n","Id","Name","Address","Salary");
+		System.out.printf("%-8s%-15s%-20s%8s%10s\n","Id","Contact","TshirtSize","Qty","amount");
 		System.out.println("-----------------------------------------------------");
 		for(Customer c1 :customerArray){
 			System.out.println(c1);
 		}
-	}	
+	}
+	
+	
 }
 
 

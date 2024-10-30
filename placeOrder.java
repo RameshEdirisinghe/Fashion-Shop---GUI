@@ -17,101 +17,183 @@ class placeOrder extends JFrame{
     private JLabel lblQty;
     private JLabel lblamount;
     
-    private JTextField txtId;
+    private JLabel txtId;
     private JTextField txtNumber;
     private JTextField txtTshirtSize;
     private JTextField txtQty;
     private JTextField txtamount;
+    private double amount;
 
 
-    placeOrder(CustomerCollection cus ){
+
+    placeOrder(CustomerCollection cus ) {
         
-        setSize(600,500);
-		setTitle("Fashion Shop");
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setLocationRelativeTo(null);
-
-        Ptitle=new JLabel("Place Order");
-		Ptitle.setFont(new Font("",1,30));
-		Ptitle.setHorizontalAlignment(JLabel.CENTER);
-		add("North",Ptitle);
-
-        JPanel LabelPanel=new JPanel(new GridLayout(5,1));
-        JPanel lblIdPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        lblId=new JLabel("Oder ID: ");
-        lblId.setFont(new Font("",1,20));
-        lblIdPanel.add("Left",lblId);
-        LabelPanel.add(lblIdPanel);
-
-        JPanel lblNumPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        lblNumber=new JLabel("Contact Number: ");
-        lblNumber.setFont(new Font("",1,20));
-        lblNumPanel.add("Left",lblNumber);
-        LabelPanel.add(lblNumPanel);
-
-        JPanel lblTshirtPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        lblTshirtSize=new JLabel("Tshirt-Size: ");
-        lblTshirtSize.setFont(new Font("",1,20));
-        lblTshirtPanel.add("Left",lblTshirtSize);
-        LabelPanel.add(lblTshirtPanel);
-
-        JPanel lblQtyPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        lblQty=new JLabel("Qty : ");
-        lblQty.setFont(new Font("",1,20));
-        lblQtyPanel.add("Left",lblQty);
-        LabelPanel.add(lblQtyPanel);
-
-        JPanel lblAmountPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        lblamount=new JLabel("Amount : ");
-        lblamount.setFont(new Font("",1,20));
-        lblAmountPanel.add("Left",lblamount);
-        LabelPanel.add(lblAmountPanel);
-
-        add("West",LabelPanel);
+        setTitle("Place Order");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);  // Center the window
 
         
-        JPanel TextPanel=new JPanel(new GridLayout(5,1));
-        JPanel TextIdPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        txtId=new JTextField(20);
-        txtId.setFont(new Font("",1,20));
-        txtId.setText(cus.getOrderId());;
-        TextIdPanel.add("Left",txtId);
-        TextPanel.add(TextIdPanel);
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(Color.WHITE);
 
-        JPanel TextNumberPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        txtNumber=new JTextField(20);
-        txtNumber.setFont(new Font("",1,20));
-        TextNumberPanel.add("Left",txtNumber);
-        // boolean isvalid = cus.validateContact(txtNumber.getText());
-        // TextPanel.add(TextNumberPanel);
-        // if (!isvalid) {
-        //     JOptionPane.showMessageDialog(null,"Invalid Number.......");
-        //     txtNumber.setText("");
-        // }
+        
+        JPanel backJPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton backButton = new JButton("Back");
+        backButton.setBackground(new Color(255, 102, 102));
+        backButton.setForeground(Color.WHITE);
+        backButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        backButton.setFocusPainted(false);
+        backJPanel.add("Left",backButton);
+    
 
-        JPanel txtTshirtSizePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        txtTshirtSize=new JTextField(20);
-        txtTshirtSize.setFont(new Font("",1,20));
-        txtTshirtSizePanel.add("Left",txtTshirtSize);
-        TextPanel.add(txtTshirtSizePanel);
+        
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new GridBagLayout());
+        infoPanel.setBackground(Color.WHITE);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);  // Add padding around components
+        gbc.anchor = GridBagConstraints.WEST;
 
-        JPanel txtQtyPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        txtQty=new JTextField(20);
-        txtQty.setFont(new Font("",1,20));
-        txtQtyPanel.add("Left",txtQty);
-        TextPanel.add(txtQtyPanel);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        infoPanel.add(new JLabel("Order ID:"), gbc);
 
-        JPanel txtamountPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        txtamount=new JTextField(20);
-        txtamount.setFont(new Font("",1,20));
-        // int qty = Integer.parseInt(txtQty.getText());
-        // cus.getamount(txtTshirtSize.getText(),qty );
-        txtamountPanel.add("Left",txtamount);
-        TextPanel.add(txtamountPanel);
+        gbc.gridx = 1;
+        JLabel orderIdLabel = new JLabel(cus.getOrderId());
+        orderIdLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
+        infoPanel.add(orderIdLabel, gbc);
 
-        add("East",TextPanel);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        infoPanel.add(new JLabel("Customer ID:"), gbc);
 
+        gbc.gridx = 1;
+        JTextField customerIdField = new JTextField(15);
+        infoPanel.add(customerIdField, gbc);
 
+        customerIdField.addActionListener(new ActionListener(){
+            
+			public void actionPerformed(ActionEvent evt){
+                boolean isvalid = cus.validateContact(customerIdField.getText());
 
+                if (!isvalid) {
+                    JOptionPane.showMessageDialog(null,"Invalid Number.......");
+                    customerIdField.setText("");
+                }
+			}
+		});
+
+        
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        infoPanel.add(new JLabel("Size:"), gbc);
+
+        gbc.gridx = 1;
+        JTextField sizeField = new JTextField(15);
+        infoPanel.add(sizeField, gbc);
+        sizeField.addActionListener(new ActionListener(){
+            
+			public void actionPerformed(ActionEvent evt){
+                boolean isCorrect = cus.validateTsize(sizeField.getText());
+
+                if(!isCorrect){
+                    JOptionPane.showMessageDialog(null,"Invalid TshirtSize.......");
+                    sizeField.setText("");
+                }
+			}
+		});
+
+        gbc.gridx = 2;
+        // gbc.gridy = 2;
+        infoPanel.add(new JLabel("(XS/S/M/L/XL/XXL)"), gbc);
+
+        
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        infoPanel.add(new JLabel("QTY:"), gbc);
+
+        gbc.gridx = 1;
+        JTextField qtyField = new JTextField(15);
+
+        
+        infoPanel.add(qtyField, gbc);
+
+        
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        infoPanel.add(new JLabel("Amount:"), gbc);
+
+        gbc.gridx = 1;
+        JLabel amountField = new JLabel(String.valueOf(amount));
+        infoPanel.add(amountField, gbc);
+
+        qtyField.addActionListener(new ActionListener(){
+            
+			public void actionPerformed(ActionEvent evt){
+                int qty = Integer.parseInt(qtyField.getText());
+                double amount = cus.getamount(sizeField.getText(),qty );
+                amountField.setText(String.valueOf(amount));
+			}
+		});
+
+        
+        mainPanel.add(backJPanel, BorderLayout.NORTH);
+        mainPanel.add(infoPanel, BorderLayout.CENTER);
+
+        // Place button
+        JButton placeButton = new JButton("Place");
+        placeButton.setBackground(new Color(0, 153, 153));
+        placeButton.setForeground(Color.WHITE);
+        placeButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        placeButton.setFocusPainted(false);
+
+        placeButton.addActionListener(new ActionListener(){
+            
+			public void actionPerformed(ActionEvent evt){
+				boolean isvalid = cus.validateContact(customerIdField.getText());
+                boolean isCorrect = cus.validateTsize(sizeField.getText());
+                int qty = Integer.parseInt(qtyField.getText());
+                amountField.setText(String.valueOf(amount));
+                double amount = cus.getamount(sizeField.getText(),qty );
+
+                    if (!isvalid) {
+                        JOptionPane.showMessageDialog(null,"Invalid Number.......");
+                        customerIdField.setText("");
+                    }else if(!isCorrect){
+                        JOptionPane.showMessageDialog(null,"Invalid TshirtSize.......");
+                        sizeField.setText("");
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Order Placed..");
+                        String id=orderIdLabel.getText();
+                        String number=customerIdField.getText();
+                        String Tsize=sizeField.getText();
+                        
+                        
+                        Customer c1=new Customer(id,number,Tsize,qty,amount);
+                        cus.addCustomer(c1);
+                        cus.printCustomers();
+                        cus.orderNumber++;
+                        dispose();
+                        new placeOrder(cus).setVisible(true);
+
+                       
+                    }
+
+			}
+		});
+
+        
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.add(placeButton);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        
+
+        // Set the main panel as the content pane
+        setContentPane(mainPanel);
     }
+
 }
