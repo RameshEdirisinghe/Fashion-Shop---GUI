@@ -1,132 +1,93 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 
+class HomePage extends JFrame {
 
-class HomePage extends JFrame{
+    private CustomerCollection cus;
 
-    // private JLabel Htitle;
-    // private JButton btnPlaceorder;
-    // private JButton btnSearch;
-    // private JButton btnSearchOid;
-    // private JButton btnViewReport;
-    // private JButton btnchangeStatus;
-    // private JButton btnDeleteOrder;
-
-    private  CustomerCollection cus;
-   
-
- 
-    HomePage( CustomerCollection cus){
+    HomePage(CustomerCollection cus) {
         this.cus = cus;
-        
+
         setTitle("Fashion Shop");
-        setSize(500, 700);  
+        setSize(500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        
-        JPanel mainPanel = new JPanel(new BorderLayout());
+      
+        JPanel mainPanel = new JPanel(null);
         mainPanel.setBackground(Color.WHITE);
+        setContentPane(mainPanel);
 
-       
         JLabel titleLabel = new JLabel("Fashion Shop", SwingConstants.CENTER);
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setOpaque(true);
         titleLabel.setBackground(new Color(0, 120, 215));
-        titleLabel.setPreferredSize(new Dimension(400, 50));
-        mainPanel.add(titleLabel, BorderLayout.NORTH);
-
-        
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(5, 1, 20, 20));  
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 70, 20, 70)); 
-        buttonPanel.setBackground(Color.WHITE);
-
-        
-        Dimension buttonSize = new Dimension(400, 10);
-
-        
-        JButton searchButton = new JButton("Search");
-        searchButton.addActionListener(new ActionListener(){
-            
-			public void actionPerformed(ActionEvent evt){
-				String[] options = {"Search Customer", "Search Order", "Cancel"};
-        
-               
-                int choice = JOptionPane.showOptionDialog(null,
-                            "Please select the option",
-                            "Search Options",
-                            JOptionPane.DEFAULT_OPTION,
-                            JOptionPane.QUESTION_MESSAGE, null,
-                            options,
-                            options[0]
-                            );
-        switch (choice) {
-            case 0:
-                System.out.println("Search Customer selected");
-                new SearchCustomer(cus).setVisible(true);
-                break;
-            case 1:
-                System.out.println("Search Order selected");
-                // Add action for "Search Order"
-                break;
-            case 2:
-                System.out.println("Cancel selected");
-                // Add action for "Cancel"
-                break;
-            default:
-                System.out.println("No option selected");
-                break;
-        }
-			}
-		});
-
-        searchButton.setPreferredSize(buttonSize);
-        
-        JButton statusButton = new JButton("Status");
-        statusButton.setPreferredSize(buttonSize);
-        
-        JButton reportsButton = new JButton("Reports");
-        reportsButton.setPreferredSize(buttonSize);
-        
-        JButton deleteButton = new JButton("Delete");
-        deleteButton.setPreferredSize(buttonSize);
-        
-        JButton placeOrderButton = new JButton("Place Order");
-        placeOrderButton.setPreferredSize(buttonSize);
-        placeOrderButton.setBackground(new Color(0, 204, 204));  // Color for the Place Order button
-        placeOrderButton.setForeground(Color.WHITE);
-        placeOrderButton.setFont(new Font("SansSerif", Font.BOLD, 16));
-        placeOrderButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent evt){
-				new placeOrder(cus).setVisible(true);
-
-			}
-		});
-
-        
-        buttonPanel.add(searchButton);
-        buttonPanel.add(statusButton);
-        buttonPanel.add(reportsButton);
-        buttonPanel.add(deleteButton);
-        buttonPanel.add(placeOrderButton);
-
-        
-        mainPanel.add(buttonPanel, BorderLayout.CENTER);
+        titleLabel.setBounds(0, 0, 500, 50); 
+        mainPanel.add(titleLabel);
 
        
+
+        JButton searchButton = new JButton("Search");
+        searchButton.setBounds(60, 80, 160, 40);
+        mainPanel.add(searchButton);
+        searchButton.addActionListener(evt -> {
+            String[] options = { "Search Customer", "Search Order", "Cancel" };
+            int choice = JOptionPane.showOptionDialog(null,
+                    "Please select the option",
+                    "Search Options",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, null,
+                    options,
+                    options[0]);
+            switch (choice) {
+                case 0:
+                    System.out.println("Search Customer selected");
+                    new SearchCustomer(cus).setVisible(true);
+                    break;
+                case 1:
+                    System.out.println("Search Order selected");
+                    // Add action for "Search Order"
+                    break;
+                case 2:
+                    System.out.println("Cancel selected");
+                    // Add action for "Cancel"
+                    break;
+                default:
+                    System.out.println("No option selected");
+                    break;
+            }
+        });
+
+ 
+        JButton statusButton = new JButton("Status");
+        statusButton.setBounds(60, 150, 160, 40);
+        mainPanel.add(statusButton);
+
+        JButton reportsButton = new JButton("Reports");
+        reportsButton.setBounds(60, 220, 160, 40);
+        mainPanel.add(reportsButton);
+
+        
+        JButton deleteButton = new JButton("Delete");
+        deleteButton.setBounds(60, 290, 160, 40);
+        mainPanel.add(deleteButton);
+
+        
+        JButton placeOrderButton = new JButton("Place Order");
+        placeOrderButton.setBounds(60, 360, 160, 60);
+        placeOrderButton.setBackground(new Color(0, 204, 204)); 
+        placeOrderButton.setForeground(Color.WHITE);
+        placeOrderButton.setFont(new Font("SansSerif", Font.BOLD, 16));
+        placeOrderButton.addActionListener(evt -> new placeOrder(cus).setVisible(true));
+        mainPanel.add(placeOrderButton);
+
+        
         JLabel imageLabel = new JLabel();
-        ImageIcon icon = new ImageIcon("D:\\iCET\\Demo\\images.png");
+        ImageIcon icon = new ImageIcon("D:\\Icd\\OOP\\Coursework2\\pngwing.com (1).png");
         imageLabel.setIcon(icon);
-        imageLabel.setBounds(320, 100, 200, 350);
-        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        mainPanel.add(imageLabel, BorderLayout.EAST);
-
-        setContentPane(mainPanel);
+        imageLabel.setBounds(250, 100, 300, 350); 
+        mainPanel.add(imageLabel);
     }
-
 }
-

@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -11,23 +12,20 @@ public class SearchCustomer extends JFrame {
     private JLabel totalLabel;
     private JScrollPane tableScrollPane;
 
-    private int tempMcount =0;
-	private int tempXScount =0;
-	private int tempScount =0;
-	private int tempLcount =0;
-	private int tempXLcount =0;
-	private int tempXXLcount=0;
+    private int tempMcount = 0;
+    private int tempXScount = 0;
+    private int tempScount = 0;
+    private int tempLcount = 0;
+    private int tempXLcount = 0;
+    private int tempXXLcount = 0;
 
-	private double Mamount=0;
-	private double XSamount=0;
-	private double Samount=0;
-	private double Lamount=0;
-	private double XLamount=0;
-	private double XXLamount=0;
-	private double Totalamount=0;
-
-    private String[] columns = new String[3];
-    private Object[][] data = new Object[6][3];
+    private double Mamount = 0;
+    private double XSamount = 0;
+    private double Samount = 0;
+    private double Lamount = 0;
+    private double XLamount = 0;
+    private double XXLamount = 0;
+    private double Totalamount = 0;
 
     public SearchCustomer(CustomerCollection cus) {
         setTitle("Search Customer");
@@ -38,7 +36,6 @@ public class SearchCustomer extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         add(mainPanel);
-        ;
 
         JPanel northPanel = new JPanel(new BorderLayout());
         JButton backButton = new JButton("Back");
@@ -60,16 +57,45 @@ public class SearchCustomer extends JFrame {
         northPanel.add(searchPanel, BorderLayout.SOUTH);
 
         mainPanel.add(northPanel, BorderLayout.NORTH);
+
+        
+        String[] columns = { "Size", "QTY", "Amount" };
+        Object[][] initialData = {
+                { "L", tempLcount, Lamount },
+                { "M", tempMcount, Mamount },
+                { "XS", tempXScount, XSamount },
+                { "S", tempScount, Samount },
+                { "XL", tempXLcount, XLamount },
+                { "XXL", tempXXLcount, XXLamount }
+        };
+        tableModel = new DefaultTableModel(initialData, columns);
+        JTable table = new JTable(tableModel);
+        tableScrollPane = new JScrollPane(table);
+        mainPanel.add(tableScrollPane, BorderLayout.CENTER);
+
+        JPanel footerPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        footerPanel.add(new JLabel("Total : "));
+        totalLabel = new JLabel(String.format("%.2f", Totalamount));
+        totalLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        footerPanel.add(totalLabel);
+        mainPanel.add(footerPanel, BorderLayout.SOUTH);
+
+        
         searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                boolean istrue = cus.searchCustomer(customerIdField.getText());
-                if (istrue) {
-                    tempLcount=cus.tempLcount;
-                    tempMcount=cus.tempMcount;
-                    tempXScount=cus.tempXScount;
-                    tempScount=cus.tempScount;
-                    tempXLcount=cus.tempXLcount;
-                    tempXXLcount=cus.tempXXLcount;
+            public void actionPerformed(ActionEvent e) {
+                String customerId = customerIdField.getText();
+                System.out.println("Search button clicked. Customer ID: " + customerId);
+
+                
+                boolean isFound = cus.searchCustomer(customerId);
+                if (isFound) {
+                    
+                    tempLcount = cus.tempLcount;
+                    tempMcount = cus.tempMcount;
+                    tempXScount = cus.tempXScount;
+                    tempScount = cus.tempScount;
+                    tempXLcount = cus.tempXLcount;
+                    tempXXLcount = cus.tempXXLcount;
 
                     Lamount = cus.Lamount;
                     Mamount = cus.Mamount;
@@ -78,49 +104,40 @@ public class SearchCustomer extends JFrame {
                     XLamount = cus.XLamount;
                     XXLamount = cus.XXLamount;
 
-                    Totalamount= cus.Totalamount;
+                    Totalamount = cus.Totalamount;
+
+                
+                    tableModel.setValueAt(tempLcount, 0, 1);
+                    tableModel.setValueAt(Lamount, 0, 2);
+                    tableModel.setValueAt(tempMcount, 1, 1);
+                    tableModel.setValueAt(Mamount, 1, 2);
+                    tableModel.setValueAt(tempXScount, 2, 1);
+                    tableModel.setValueAt(XSamount, 2, 2);
+                    tableModel.setValueAt(tempScount, 3, 1);
+                    tableModel.setValueAt(Samount, 3, 2);
+                    tableModel.setValueAt(tempXLcount, 4, 1);
+                    tableModel.setValueAt(XLamount, 4, 2);
+                    tableModel.setValueAt(tempXXLcount, 5, 1);
+                    tableModel.setValueAt(XXLamount, 5, 2);
+
+                    
+                    totalLabel.setText(String.format("%.2f", Totalamount));
+
+                   
+                    tableModel.fireTableDataChanged();
+                    mainPanel.revalidate();
+                    mainPanel.repaint();
+                } else {
+                    JOptionPane.showMessageDialog(mainPanel, "Customer not found", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
-
             }
         });
 
-        String[] columns = { "Size", "QTY", "Amount" };
-        Object[][] data = {
-                { "L", tempLcount, Lamount},
-                { "M", tempMcount, Mamount },
-                { "XS", tempXScount, XSamount },
-                { "S", tempScount, Samount },
-                { "XL", tempXLcount, XLamount},
-                { "XXL", tempXXLcount, XXLamount}
-        };
-        tableModel = new DefaultTableModel(data, columns);
-        JTable table = new JTable(tableModel);
-        JScrollPane tableScrollPane = new JScrollPane(table);
-        mainPanel.add(tableScrollPane, BorderLayout.CENTER);
-
-        JPanel footerPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        footerPanel.add(new JLabel("Total : "));
-        totalLabel = new JLabel(String.valueOf(Totalamount));
-        totalLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        footerPanel.add(totalLabel);
-        mainPanel.add(footerPanel, BorderLayout.SOUTH);
-
-        // Button actions
+       
         backButton.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Back button clicked");
                 // Add back button action code here
-            }
-        });
-
-        searchButton.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                String customerId = customerIdField.getText();
-                System.out.println("Search button clicked. Customer ID: " + customerId);
-                // Add search action code here
             }
         });
 
