@@ -129,7 +129,7 @@ class placeOrder extends JFrame{
         gbc.gridx = 1;
         JLabel amountField = new JLabel(String.valueOf(amount));
         infoPanel.add(amountField, gbc);
-
+        //
         qtyField.addActionListener(new ActionListener(){
             
 			public void actionPerformed(ActionEvent evt){
