@@ -142,7 +142,7 @@ class placeOrder extends JFrame {
                     String number = customerIdField.getText();
                     String Tsize = sizeField.getText();
 
-                    Customer c1 = new Customer(id, number, Tsize, qty, amount);
+                    Customer c1 = new Customer(id, number, Tsize, qty, calculatedAmount ,0);
                     cus.addCustomer(c1);
                     cus.printCustomers();
                     cus.orderNumber++;
@@ -158,6 +158,13 @@ class placeOrder extends JFrame {
         buttonPanel.setBackground(Color.WHITE);
         buttonPanel.add(placeButton);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        backButton.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                dispose();
+                new HomePage(cus).setVisible(true);
+            }
+        });
 
        
         setContentPane(mainPanel);

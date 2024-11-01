@@ -7,11 +7,11 @@ class HomePage extends JFrame {
     private CustomerCollection cus;
 
     HomePage(CustomerCollection cus) {
-        this.cus = cus;
+        // this.cus = cus;
 
         setTitle("Fashion Shop");
         setSize(500, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(2);
         setLocationRelativeTo(null);
 
       
@@ -44,10 +44,12 @@ class HomePage extends JFrame {
             switch (choice) {
                 case 0:
                     System.out.println("Search Customer selected");
+                    dispose();
                     new SearchCustomer(cus).setVisible(true);
                     break;
                 case 1:
                     System.out.println("Search Order selected");
+                    dispose();
                     new SearcherOrderID(cus).setVisible(true);
                     break;
                 case 2:
@@ -68,6 +70,11 @@ class HomePage extends JFrame {
         JButton reportsButton = new JButton("Reports");
         reportsButton.setBounds(60, 220, 160, 40);
         mainPanel.add(reportsButton);
+        reportsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt){
+                new Reports(cus).setVisible(true);
+            }
+        });
 
         
         JButton deleteButton = new JButton("Delete");
@@ -80,7 +87,11 @@ class HomePage extends JFrame {
         placeOrderButton.setBackground(new Color(0, 204, 204)); 
         placeOrderButton.setForeground(Color.WHITE);
         placeOrderButton.setFont(new Font("SansSerif", Font.BOLD, 16));
-        placeOrderButton.addActionListener(evt -> new placeOrder(cus).setVisible(true));
+        placeOrderButton.addActionListener(evt -> {
+            dispose();
+            new placeOrder(cus).setVisible(true);
+         
+        });
         mainPanel.add(placeOrderButton);
 
         

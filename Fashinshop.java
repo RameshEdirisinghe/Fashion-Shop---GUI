@@ -8,13 +8,13 @@ class Fashionshop {
 	public static void main(String[] args) {
 		CustomerCollection cus = new CustomerCollection();
 		new HomePage(cus).setVisible(true);
-
+		
 	}
 
 }
 
 class CustomerCollection {
-	private Customer[] customerArray;
+	static Customer[] customerArray;
 	private String OderID;
 	public int orderNumber = 1;
 	private double amount;
@@ -101,7 +101,9 @@ class CustomerCollection {
 		return amount;
 	}
 
-	public boolean addCustomer(Customer customer) {
+	public boolean addCustomer(Customer customer
+	
+	) {
 		extendsArray();
 		customerArray[customerArray.length - 1] = customer;
 		return true;
@@ -162,6 +164,15 @@ class CustomerCollection {
 		Totalamount = 0;
 	}
 
+	public int searchOrderId(String oderID){
+		for(int i =0;i<customerArray.length;i++){
+			if (customerArray[i].getId().equals(oderID)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	private void extendsArray() {
 		Customer[] tempCustomerArray = new Customer[customerArray.length + 1];
 		for (int i = 0; i < customerArray.length; i++) {
@@ -186,16 +197,18 @@ class Customer {
 	private String TshirtSize;
 	private int Qty;
 	private double amount;
+	private int status;
 
-	Customer() {
-	}
+	// Customer() {
+	// }
 
-	Customer(String id, String ContactNumber, String TshirtSize, int Qty, double amount) {
+	Customer(String id, String ContactNumber, String TshirtSize, int Qty, double amount,int status) {
 		this.id = id;
 		this.ContactNumber = ContactNumber;
 		this.TshirtSize = TshirtSize;
 		this.Qty = Qty;
 		this.amount = amount;
+		this.status = status;
 	}
 
 	public String toString() {
@@ -220,6 +233,20 @@ class Customer {
 
 	public double getamount() {
 		return amount;
+	}
+
+	public String getstatus() {
+
+		if (status==0) {
+			return "Processsing";
+		}else if(status ==1){
+			return "Delivering";
+
+		}else if(status == 2){
+			return "Delivered";
+		}else{
+			return null;
+		}
 	}
 	// getters
 }

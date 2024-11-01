@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -126,6 +125,7 @@ public class SearchCustomer extends JFrame {
                    
                     tableModel.fireTableDataChanged();
                     mainPanel.revalidate();
+                    
                     mainPanel.repaint();
                 } else {
                     JOptionPane.showMessageDialog(mainPanel, "Customer not found", "Error", JOptionPane.ERROR_MESSAGE);
@@ -137,7 +137,8 @@ public class SearchCustomer extends JFrame {
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Back button clicked");
-                // Add back button action code here
+                dispose();
+                new HomePage(cus).setVisible(true);
             }
         });
 
