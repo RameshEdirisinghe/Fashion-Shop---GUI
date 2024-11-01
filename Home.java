@@ -48,7 +48,7 @@ class HomePage extends JFrame {
                     break;
                 case 1:
                     System.out.println("Search Order selected");
-                    // Add action for "Search Order"
+                    new SearcherOrderID(cus).setVisible(true);
                     break;
                 case 2:
                     System.out.println("Cancel selected");
