@@ -31,6 +31,7 @@ public class Reports extends JFrame {
         add(ViewButton);
         ViewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
+                dispose();
                 new viewCustomers(cus).setVisible(true);
             }
         });
