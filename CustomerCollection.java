@@ -2,7 +2,10 @@ class CustomerCollection {
     public Customer[] customerArray;
     public Customer[] viewReportarray;
     public Customer[] bestCusarray;
-    public Customer[] allCus ;
+    public sort[] sortamount;
+    public sort[] sortqty;
+    public Customer[] odramount;
+    public Customer[] allCus;
     int validCount;
     private String OderID;
     public int orderNumber = 1;
@@ -96,6 +99,14 @@ class CustomerCollection {
         customerArray[customerArray.length - 1] = customer;
         return true;
 
+    }
+
+    private void extendsArray() {
+        Customer[] tempCustomerArray = new Customer[customerArray.length + 1];
+        for (int i = 0; i < customerArray.length; i++) {
+            tempCustomerArray[i] = customerArray[i];
+        }
+        customerArray = tempCustomerArray;
     }
 
     public boolean searchCustomer(String num) {
@@ -225,7 +236,7 @@ class CustomerCollection {
     public void allcustomer() {
         allCus = new Customer[customerArray.length];
         boolean[] processed = new boolean[customerArray.length];
-        int validCount = 0;
+        validCount = 0;
 
         for (int i = 0; i < customerArray.length; i++) {
             if (processed[i]) {
@@ -289,11 +300,90 @@ class CustomerCollection {
                 }
             }
 
-            allCus[validCount].setallcustomerValues(customerArray[i].getNumber(), XScount, Scount, Mcount, Lcount, XLcount,
+            allCus[validCount].setallcustomerValues(customerArray[i].getNumber(), XScount, Scount, Mcount, Lcount,
+                    XLcount,
                     XXLcount, tempamount);
+
+            // for (int j = 0; j < validCount; j++) {
+            // System.out.println(allCus[i].getNumber()+""+allCus[i].getXL());
+            // }
             validCount++;
 
         }
+    }
+
+    public void categorizedByQty() {
+        sortqty = new sort[6];
+        boolean[] processed = new boolean[customerArray.length];
+
+        int Mqty = 0;
+        int XSqty = 0;
+        int Sqty = 0;
+        int Lqty = 0;
+        int XLqty = 0;
+        int XXLqty = 0;
+
+        double Mtotal = 0;
+        double XStotal = 0;
+        double Stotal = 0;
+        double Ltotal = 0;
+        double XLtotal = 0;
+        double XXLtotal = 0;
+
+        for (int i = 0; i < customerArray.length; i++) {
+
+            if (customerArray[i].getTshirtSize().equals("M")) {
+                Mqty += customerArray[i].getQty();
+
+            } else if (customerArray[i].getTshirtSize().equals("XL")) {
+                XLqty += customerArray[i].getQty();
+
+            } else if (customerArray[i].getTshirtSize().equals("XS")) {
+                XSqty += customerArray[i].getQty();
+
+            } else if (customerArray[i].getTshirtSize().equals("S")) {
+                Sqty += customerArray[i].getQty();
+
+            } else if (customerArray[i].getTshirtSize().equals("XXL")) {
+                XXLqty += customerArray[i].getQty();
+
+            } else if (customerArray[i].getTshirtSize().equals("L")) {
+                Lqty += customerArray[i].getQty();
+
+            }
+
+        }
+        Mtotal = Mqty * 900;
+        XLtotal = XLqty * 1100;
+        XStotal = XSqty * 600;
+        Stotal = Sqty * 900;
+        Ltotal = Lqty * 1000;
+        XXLtotal = XXLqty * 1200;
+
+        sortqty[0] = new sort();
+        sortqty[0].setByqty("XS", XSqty, XStotal);
+        sortqty[1] = new sort();
+        sortqty[1].setByqty("S", Sqty, Stotal);
+        sortqty[2] = new sort();
+        sortqty[2].setByqty("M", Mqty, Mtotal);
+        sortqty[3] = new sort();
+        sortqty[3].setByqty("L", Lqty, Ltotal);
+        sortqty[4] = new sort();
+        sortqty[4].setByqty("XL", XLqty, XLtotal);
+        sortqty[5] = new sort();
+        sortqty[5].setByqty("XXL", XXLqty, XXLtotal);
+
+        for (int i = 5; i > 0; i--) {
+
+            for (int j = 0; j < i; j++) {
+                if (sortqty[j].getqty() < sortqty[j + 1].getqty()) {
+                    sort temp = sortqty[j];
+                    sortqty[j] = sortqty[j + 1];
+                    sortqty[j + 1] = temp;
+                }
+            }
+        }
+
     }
 
     public int searchOrderId(String oderID) {
@@ -305,12 +395,100 @@ class CustomerCollection {
         return -1;
     }
 
-    private void extendsArray() {
-        Customer[] tempCustomerArray = new Customer[customerArray.length + 1];
+    public void odramount() {
+
+        odramount = new Customer[customerArray.length];
+       
+
+
+
         for (int i = 0; i < customerArray.length; i++) {
-            tempCustomerArray[i] = customerArray[i];
+            // copy previous data
+            odramount[i] = customerArray[i];
         }
-        customerArray = tempCustomerArray;
+
+        for (int i = customerArray.length - 1; i > 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (odramount[j].getamount() < odramount[j + 1].getamount()) {
+                    Customer temp = odramount[j];
+                    odramount[j] = odramount[j + 1];
+                    odramount[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+
+    public void sortByamount() {
+        sortamount = new sort[6];
+        boolean[] processed = new boolean[customerArray.length];
+
+        int Mqty = 0;
+        int XSqty = 0;
+        int Sqty = 0;
+        int Lqty = 0;
+        int XLqty = 0;
+        int XXLqty = 0;
+
+        double Mtotal = 0;
+        double XStotal = 0;
+        double Stotal = 0;
+        double Ltotal = 0;
+        double XLtotal = 0;
+        double XXLtotal = 0;
+
+        for (int i = 0; i < customerArray.length; i++) {
+
+            if (customerArray[i].getTshirtSize().equals("M")) {
+                Mqty += customerArray[i].getQty();
+
+            } else if (customerArray[i].getTshirtSize().equals("XL")) {
+                XLqty += customerArray[i].getQty();
+
+            } else if (customerArray[i].getTshirtSize().equals("XS")) {
+                XSqty += customerArray[i].getQty();
+
+            } else if (customerArray[i].getTshirtSize().equals("S")) {
+                Sqty += customerArray[i].getQty();
+
+            } else if (customerArray[i].getTshirtSize().equals("XXL")) {
+                XXLqty += customerArray[i].getQty();
+
+            } else if (customerArray[i].getTshirtSize().equals("L")) {
+                Lqty += customerArray[i].getQty();
+
+            }
+
+        }
+        Mtotal = Mqty * 900;
+        XLtotal = XLqty * 1100;
+        XStotal = XSqty * 600;
+        Stotal = Sqty * 900;
+        Ltotal = Lqty * 1000;
+        XXLtotal = XXLqty * 1200;
+
+        sortamount[0] = new sort();
+        sortamount[0].setByqty("XS", XSqty, XStotal);
+        sortamount[1] = new sort();
+        sortamount[1].setByqty("S", Sqty, Stotal);
+        sortamount[2] = new sort();
+        sortamount[2].setByqty("M", Mqty, Mtotal);
+        sortamount[3] = new sort();
+        sortamount[3].setByqty("L", Lqty, Ltotal);
+        sortamount[4] = new sort();
+        sortamount[4].setByqty("XL", XLqty, XLtotal);
+        sortamount[5] = new sort();
+        sortamount[5].setByqty("XXL", XXLqty, XXLtotal);
+        for (int i = 5; i > 0; i--) {
+
+            for (int j = 0; j < i; j++) {
+                if (sortamount[j].getamount() < sortamount[j + 1].getamount()) {
+                    sort temp = sortamount[j];
+                    sortamount[j] = sortamount[j + 1];
+                    sortamount[j + 1] = temp;
+                }
+            }
+        }
     }
 
     public void printCustomers() {
@@ -322,8 +500,6 @@ class CustomerCollection {
     }
 
 }
-
-
 
 class Customer {
     private String id;
@@ -338,7 +514,7 @@ class Customer {
     private int L;
     private int XL;
     private int XXL;
-    
+
     Customer() {
     }
 
@@ -409,7 +585,6 @@ class Customer {
         this.amount = amount;
     }
 
-    
     public int getXS() {
         return XS;
     }
@@ -434,6 +609,31 @@ class Customer {
         return XXL;
     }
 
-    
     // getters
+}
+
+class sort {
+    private int qty;
+    private String size;
+    private double amount;
+
+    public void setByqty(String size, int qty, double amount) {
+
+        this.size = size;
+        this.qty = qty;
+        this.amount = amount;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public int getqty() {
+        return qty;
+    }
+
+    public double getamount() {
+        return amount;
+    }
+
 }

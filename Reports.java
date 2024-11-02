@@ -69,27 +69,50 @@ public class Reports extends JFrame {
         ByqtyButton.setBackground(Color.BLUE);
         ByqtyButton.setBounds(200,90,180,40);
         add(ByqtyButton);
-
-        JButton ByamntButton = new JButton("Categorized by Qty ");
+        ByqtyButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new catByQty(cus).setVisible(true);
+            }
+        });
+        JButton ByamntButton = new JButton("Categorized by Amount ");
         ByamntButton.setFont(new Font("Arial",Font.BOLD,15));
         ByamntButton.setForeground(Color.WHITE);
         ByamntButton.setBackground(Color.BLUE);
         ByamntButton.setBounds(200,140,180,40);
         add(ByamntButton);
+        ByamntButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new catByamount(cus).setVisible(true);
+            }
+        });
 
-        JButton OrderbyButton = new JButton("Categorized by Qty ");
+        JButton OrderbyButton = new JButton("Orders By Amount ");
         OrderbyButton.setFont(new Font("Arial",Font.BOLD,15));
         OrderbyButton.setForeground(Color.WHITE);
         OrderbyButton.setBackground(Color.GRAY);
         OrderbyButton.setBounds(400,90,180,40);
         add(OrderbyButton);
+        OrderbyButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new OrderbyAmount(cus).setVisible(true);
+            }
+        });
 
-        JButton AllOrderButton = new JButton("Categorized by Qty ");
+        JButton AllOrderButton = new JButton("All Orders ");
         AllOrderButton.setFont(new Font("Arial",Font.BOLD,15));
         AllOrderButton.setForeground(Color.WHITE);
         AllOrderButton.setBackground(Color.GRAY);
         AllOrderButton.setBounds(400,140,180,40);
         add(AllOrderButton);
+        AllOrderButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new AllOrder(cus).setVisible(true);
+            }
+        });
 
 
         BackButton.addActionListener(new ActionListener()  {

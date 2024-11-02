@@ -8,12 +8,13 @@ import java.util.*;
 class allCustomer extends JFrame {
     allCustomer(CustomerCollection cus){
         setTitle("All Customers");
-        setSize(400,400);
+        setSize(800,300);
         setDefaultCloseOperation(2);
         setLocationRelativeTo(null);
         setLayout(null);
 
 
+        cus.allcustomer();
         JButton Back = new JButton("Back");
         Back.setFont(new Font("Arial",Font.BOLD,15));
         Back.setForeground(Color.WHITE);
@@ -31,7 +32,14 @@ class allCustomer extends JFrame {
         DefaultTableModel tbl = new DefaultTableModel(cols,0);
 
         for(int i=0;i<cus.validCount;i++){
-            Object[] row = {cus.allCus[i].getNumber(),cus.allCus[i].getNumber(),cus.allCus[i].getNumber(),cus.allCus[i].getNumber(),cus.allCus[i].getNumber(),cus.allCus[i].getNumber(),cus.allCus[i].getNumber(),cus.allCus[i].getamount()};
+            System.out.println(cus.allCus[i].getNumber()+""+cus.allCus[i].getXS());
+            Object[] row = {cus.allCus[i].getNumber(),cus.allCus[i].getXS(),cus.allCus[i].getS(),cus.allCus[i].getM(),cus.allCus[i].getL(),cus.allCus[i].getXL(),cus.allCus[i].getXXL(),cus.allCus[i].getamount()};
+            tbl.addRow(row);
         }
+
+        JTable Table = new JTable(tbl);
+        JScrollPane scroll = new JScrollPane(Table);
+        scroll.setBounds(40,40,700,200);
+        add(scroll);
     }
 }
