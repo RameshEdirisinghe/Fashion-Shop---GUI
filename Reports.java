@@ -42,6 +42,12 @@ public class Reports extends JFrame {
         BestButton.setForeground(Color.WHITE);
         BestButton.setBackground(Color.GREEN);
         BestButton.setBounds(10,115,180,30);
+        BestButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new bestCustomer(cus).setVisible(true);
+            }
+        });
         add(BestButton);
 
         JButton allButton = new JButton("All Customers");
@@ -50,6 +56,12 @@ public class Reports extends JFrame {
         allButton.setBackground(Color.GREEN);
         allButton.setBounds(10,165,180,30);
         add(allButton);
+        allButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new allCustomer(cus).setVisible(true);
+            }
+        });
 
         JButton ByqtyButton = new JButton("Categorized by Qty ");
         ByqtyButton.setFont(new Font("Arial",Font.BOLD,15));

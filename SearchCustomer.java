@@ -84,7 +84,7 @@ public class SearchCustomer extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String customerId = customerIdField.getText();
                 System.out.println("Search button clicked. Customer ID: " + customerId);
-
+                
                 
                 boolean isFound = cus.searchCustomer(customerId);
                 if (isFound) {
