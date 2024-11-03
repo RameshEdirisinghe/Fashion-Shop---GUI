@@ -490,6 +490,20 @@ class CustomerCollection {
             }
         }
     }
+    public boolean sortarray(int deleteindex) {
+        Customer[] tempCusArray = new Customer[customerArray.length - 1]; // Correct size
+    
+        for (int i = 0, j = 0; i < customerArray.length; i++) {
+            if (i != deleteindex) {
+                tempCusArray[j] = customerArray[i]; // Copy valid entries
+                j++;
+            }
+        }
+        
+        customerArray = tempCusArray;
+        return true; // Update the global array reference
+    }
+
 
     public void printCustomers() {
         System.out.printf("%-8s%-15s%-20s%8s%10s\n", "Id", "Contact", "TshirtSize", "Qty", "amount");
@@ -575,6 +589,7 @@ class Customer {
             return null;
         }
     }
+    
 
     public void setallcustomerValues(String Contactnum, int XS, int S, int M, int L, int XL, int XXL, double amount) {
 

@@ -86,6 +86,11 @@ class HomePage extends JFrame {
         JButton deleteButton = new JButton("Delete");
         deleteButton.setBounds(60, 290, 160, 40);
         mainPanel.add(deleteButton);
+        deleteButton.addActionListener(evt -> {
+            dispose();
+            new DeleteOrder(cus).setVisible(true);
+         
+        });
 
         
         JButton placeOrderButton = new JButton("Place Order");

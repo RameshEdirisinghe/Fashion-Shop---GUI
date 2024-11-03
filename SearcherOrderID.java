@@ -19,6 +19,12 @@ class SearcherOrderID extends JFrame {
         backButton.setBackground(Color.red);
         backButton.setBounds(0, 0, 80, 20);
         add(backButton);
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new HomePage(cus).setVisible(true);
+            }
+        });
 
         JLabel oderJLabel = new JLabel("Enter Order ID :");
         oderJLabel.setFont(new Font("Arial", Font.BOLD, 15));

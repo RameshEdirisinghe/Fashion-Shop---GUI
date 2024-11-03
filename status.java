@@ -19,6 +19,13 @@ class status extends JFrame {
         backButton.setBackground(new Color(255, 102, 102));
         backButton.setBounds(0, 0, 80, 30);
         add(backButton);
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new HomePage(cus).setVisible(true);
+            }
+        });
+       
 
         JLabel oderJLabel = new JLabel("Enter Order ID :");
         oderJLabel.setFont(new Font("Arial", Font.BOLD, 15));
