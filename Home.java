@@ -66,6 +66,12 @@ class HomePage extends JFrame {
         JButton statusButton = new JButton("Status");
         statusButton.setBounds(60, 150, 160, 40);
         mainPanel.add(statusButton);
+        statusButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                dispose();
+                new status(cus).setVisible(true);
+            }
+        });
 
         JButton reportsButton = new JButton("Reports");
         reportsButton.setBounds(60, 220, 160, 40);

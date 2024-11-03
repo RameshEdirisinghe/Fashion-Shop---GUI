@@ -534,6 +534,9 @@ class Customer {
         this.amount = amount;
 
     }
+    public void setStatus(int status){
+        this.status=status;
+    }
 
     public String toString() {
         return String.format("%-8s%-15s%-20s%10d%010.2f", id, ContactNumber, TshirtSize, Qty, amount);
@@ -562,7 +565,7 @@ class Customer {
     public String getstatus() {
 
         if (status == 0) {
-            return "Processsing";
+            return "Processing";
         } else if (status == 1) {
             return "Delivering";
 

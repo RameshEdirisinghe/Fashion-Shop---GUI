@@ -31,6 +31,7 @@ class allCustomer extends JFrame {
         String[] cols = {"Customer ID","XS","S","M","L","XL","XXL","Amount"};
         DefaultTableModel tbl = new DefaultTableModel(cols,0);
 
+        
         for(int i=0;i<cus.validCount;i++){
             System.out.println(cus.allCus[i].getNumber()+""+cus.allCus[i].getXS());
             Object[] row = {cus.allCus[i].getNumber(),cus.allCus[i].getXS(),cus.allCus[i].getS(),cus.allCus[i].getM(),cus.allCus[i].getL(),cus.allCus[i].getXL(),cus.allCus[i].getXXL(),cus.allCus[i].getamount()};

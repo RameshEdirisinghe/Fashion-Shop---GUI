@@ -1,23 +1,23 @@
+import java.util.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
-class SearcherOrderID extends JFrame {
+class status extends JFrame {
+    private int index;
 
-    SearcherOrderID(CustomerCollection cus) {
-        setTitle("Search order");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    status(CustomerCollection cus) {
+        setTitle("Status");
         setSize(400, 450);
-        setLocationRelativeTo(null);
+        setDefaultCloseOperation(2);
         setLayout(null);
+        setLocationRelativeTo(null);
 
         JButton backButton = new JButton("Back");
         backButton.setForeground(Color.WHITE);
-        backButton.setBackground(Color.red);
-        backButton.setBounds(0, 0, 80, 20);
+        backButton.setBackground(new Color(255, 102, 102));
+        backButton.setBounds(0, 0, 80, 30);
         add(backButton);
 
         JLabel oderJLabel = new JLabel("Enter Order ID :");
@@ -81,17 +81,16 @@ class SearcherOrderID extends JFrame {
         amountField.setBounds(125, 245, 200, 20);
         add(amountField);
 
-        JLabel statusField= new JLabel("");
+        JLabel statusField = new JLabel("");
         statusField.setFont(new Font("Arial", Font.PLAIN, 15));
         statusField.setBounds(125, 295, 200, 20);
         add(statusField);
 
-
         searchButton.addActionListener(new ActionListener() {
-            
-            public void actionPerformed(ActionEvent evt){
-                String odrId= OrderIDField.getText();
-                int index = cus.searchOrderId(odrId);
+
+            public void actionPerformed(ActionEvent evt) {
+                String odrId = OrderIDField.getText();
+                index = cus.searchOrderId(odrId);
 
                 if (index != -1) {
                     String num = cus.customerArray[index].getNumber();
@@ -100,8 +99,59 @@ class SearcherOrderID extends JFrame {
                     qtyField.setText(String.valueOf(cus.customerArray[index].getQty()));
                     amountField.setText(String.valueOf(cus.customerArray[index].getamount()));
                     statusField.setText(cus.customerArray[index].getstatus());
-                }else{
-                    JOptionPane.showMessageDialog(SearcherOrderID.this,"Customer not found","Error",JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(status.this, "Customer not found", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        JButton changeStatus = new JButton("Change Status");
+        changeStatus.setFont(new Font("Arial", Font.PLAIN, 15));
+        changeStatus.setForeground(Color.WHITE);
+        changeStatus.setBackground(new Color(16, 162, 198));
+        changeStatus.setBounds(220, 360, 150, 30);
+        add(changeStatus);
+
+        changeStatus.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("button clicked");
+                String statusss=cus.customerArray[index].getstatus();
+                System.out.println(cus.customerArray[index].getstatus());
+                System.out.println(statusss.equals("Processing"));
+                if (statusss.equals("Processing")) {
+                    String[] option = { "Delivering", "Delivered" };
+                    int choice = JOptionPane.showOptionDialog(null,
+                            "Please select the option",
+                            "Status Options",
+                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.QUESTION_MESSAGE, null,
+                            option,
+                            option[0]);
+
+                    switch (choice) {
+                        case 0:
+                            cus.customerArray[index].setStatus(1);
+                            break;
+                        case 1:
+                            cus.customerArray[index].setStatus(2);
+                            break;
+                        default:
+                            break;
+                    }
+                } else if (statusField.getText().equals("Delivering")) {
+                    String[] option = { "Delivered" };
+                    int choice = JOptionPane.showOptionDialog(null, "Select Option", "Status Option",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, option, option[0]);
+
+                    switch (choice) {
+                        case 0:
+                            cus.customerArray[index].setStatus(2);
+                            break;
+                    
+                        default:
+                            break;
+                    }
                 }
             }
         });
