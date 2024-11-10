@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 class AllOrder extends JFrame {
-    AllOrder(CustomerCollection cus) {
+    AllOrder(List cus) {
         setSize(400, 400);
         setTitle("All Orders");
         setDefaultCloseOperation(2);
@@ -29,7 +29,7 @@ class AllOrder extends JFrame {
         String[] cols = { "OrderID", "CustomerID", "Size", "QTY", "Amount", "Status" };
         DefaultTableModel tbl = new DefaultTableModel(cols, 0);
 
-        for (int i = (cus.customerArray.length)-1; i >=0; i--) {
+        for (int i = (cus.size())-1; i >=0; i--) {
             Object[] row = { cus.customerArray[i].getId(), cus.customerArray[i].getNumber(), cus.customerArray[i].getTshirtSize(),cus.customerArray[i].getQty(), cus.customerArray[i].getamount(), cus.customerArray[i].getstatus() };
             tbl.addRow(row);
         }

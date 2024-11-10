@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 
 public class Reports extends JFrame {
     
-    Reports(CustomerCollection cus){
+    Reports(List cus){
         setTitle("View Reports");
         setDefaultCloseOperation(2);
         setSize(600,300);

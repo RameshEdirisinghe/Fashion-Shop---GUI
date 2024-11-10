@@ -2,12 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.io.*;
 
 class placeOrder extends JFrame {
 
     private double amount;
 
-    placeOrder(CustomerCollection cus) {
+    placeOrder(List cus) {
 
         setTitle("Place Order");
         setSize(400, 300);
@@ -37,7 +38,7 @@ class placeOrder extends JFrame {
         infoPanel.add(new JLabel("Order ID:"), gbc);
 
         gbc.gridx = 1;
-        JLabel orderIdLabel = new JLabel(cus.getOrderId());
+        JLabel orderIdLabel = new JLabel(generateCustomerId());
         orderIdLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
         infoPanel.add(orderIdLabel, gbc);
 
@@ -100,7 +101,7 @@ class placeOrder extends JFrame {
         gbc.gridx = 1;
         JLabel amountField = new JLabel(String.valueOf(amount));
         infoPanel.add(amountField, gbc);
-        
+
         qtyField.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent evt) {
@@ -135,17 +136,22 @@ class placeOrder extends JFrame {
                 } else {
                     int qty = Integer.parseInt(qtyField.getText());
                     double calculatedAmount = cus.getamount(sizeField.getText(), qty);
-                    amountField.setText(String.valueOf(calculatedAmount)); 
+                    amountField.setText(String.valueOf(calculatedAmount));
 
-                    JOptionPane.showMessageDialog(null, "Order Placed..");
                     String id = orderIdLabel.getText();
                     String number = customerIdField.getText();
                     String Tsize = sizeField.getText();
 
-                    Customer c1 = new Customer(id, number, Tsize, qty, calculatedAmount ,0);
-                    cus.addCustomer(c1);
+                    try {
+                        FileWriter fw = new FileWriter("Customer.txt", true);
+                        fw.write(id + "," + number + "," + Tsize + "," + qty + "," + calculatedAmount + "\n");
+                        fw.close();
+                    } catch (IOException ex) {
+                    }
+
+                    Customer c1 = new Customer(id, number, Tsize, qty, calculatedAmount, 0);
+                    cus.add(c1);
                     cus.printCustomers();
-                    cus.orderNumber++;
                     dispose();
                     new placeOrder(cus).setVisible(true);
 
@@ -166,8 +172,27 @@ class placeOrder extends JFrame {
             }
         });
 
-       
         setContentPane(mainPanel);
     }
+
+    private String generateCustomerId(){
+		String lastLine=null;
+		try{
+			BufferedReader br=new BufferedReader(new FileReader("Customer.txt"));
+			String line=br.readLine();
+			while(line!=null){
+				lastLine=line;
+				line=br.readLine();
+			}
+		}catch(IOException ex){
+			
+		}
+		if(lastLine==null){
+			return "ODR#00001";
+		}else{
+			int lastIdNumber=Integer.parseInt(lastLine.substring(4,9));
+			return String.format("ODR#%05d",lastIdNumber+1);
+		}
+	}
 
 }

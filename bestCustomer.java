@@ -7,7 +7,7 @@ import java.awt.event.*;
 
 
 class bestCustomer extends JFrame{
-    bestCustomer(CustomerCollection cus){
+    bestCustomer(List cus){
         setSize(400,400);
         setTitle("Best In Customers");
         setDefaultCloseOperation(2);

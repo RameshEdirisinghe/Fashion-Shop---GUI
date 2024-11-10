@@ -16,7 +16,7 @@ class DeleteOrder extends JFrame {
     private JLabel lblAmount;
     private JLabel lblStatus;
 
-    DeleteOrder(CustomerCollection cus) {
+    DeleteOrder(List cus) {
         setSize(500, 500);
         setTitle("Delete Order");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -139,7 +139,7 @@ class DeleteOrder extends JFrame {
 
                 switch (choice) {
                     case 0:
-                        boolean isDelete = cus.sortarray(index);
+                        boolean isDelete = cus.remove(index);
                         if (isDelete) {
                             JOptionPane.showMessageDialog(null, "Order Delete Succesfull", "DeleteOrder",
                                     JOptionPane.INFORMATION_MESSAGE);

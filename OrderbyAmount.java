@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 class OrderbyAmount extends JFrame {
-    OrderbyAmount(CustomerCollection cus) {
+    OrderbyAmount(List cus) {
         setSize(400, 400);
         setTitle("Categorized by Qty");
         setDefaultCloseOperation(2);

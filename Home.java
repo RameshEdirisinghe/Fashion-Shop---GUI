@@ -4,9 +4,9 @@ import java.awt.event.*;
 
 class HomePage extends JFrame {
 
-    private CustomerCollection cus;
+    private List cus;
 
-    HomePage(CustomerCollection cus) {
+    HomePage(List cus) {
         // this.cus = cus;
 
         setTitle("Fashion Shop");

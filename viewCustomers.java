@@ -5,7 +5,7 @@ import javax.swing.table.DefaultTableModel;
 
 class viewCustomers extends JFrame {
 
-    viewCustomers(CustomerCollection cus) {
+    viewCustomers(List cus) {
         setTitle("View Customers");
         setSize(400, 400);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

@@ -9,7 +9,7 @@ import java.awt.event.*;
 
 
 class catByamount extends JFrame {
-    catByamount(CustomerCollection cus){
+    catByamount(List cus){
         setSize(400,400);
         setTitle("Categorized by Amount");
         setDefaultCloseOperation(2);

@@ -7,7 +7,7 @@ import java.awt.event.*;
 class status extends JFrame {
     private int index;
 
-    status(CustomerCollection cus) {
+    status(List cus) {
         setTitle("Status");
         setSize(400, 450);
         setDefaultCloseOperation(2);

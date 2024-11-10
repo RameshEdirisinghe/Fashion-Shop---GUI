@@ -26,7 +26,7 @@ public class SearchCustomer extends JFrame {
     private double XXLamount = 0;
     private double Totalamount = 0;
 
-    public SearchCustomer(CustomerCollection cus) {
+    public SearchCustomer(List cus) {
         setTitle("Search Customer");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 450);

@@ -7,7 +7,7 @@ import java.awt.event.*;
 
 
 class catByQty extends JFrame {
-    catByQty(CustomerCollection cus){
+    catByQty(List cus){
         setSize(400,400);
         setTitle("Categorized by Qty");
         setDefaultCloseOperation(2);

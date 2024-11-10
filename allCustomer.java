@@ -6,7 +6,7 @@ import java.util.*;
 
 
 class allCustomer extends JFrame {
-    allCustomer(CustomerCollection cus){
+    allCustomer(List cus){
         setTitle("All Customers");
         setSize(800,300);
         setDefaultCloseOperation(2);

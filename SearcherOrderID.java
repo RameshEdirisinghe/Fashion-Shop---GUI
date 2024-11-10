@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 class SearcherOrderID extends JFrame {
 
-    SearcherOrderID(CustomerCollection cus) {
+    SearcherOrderID(List cus) {
         setTitle("Search order");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 450);

@@ -1,4 +1,4 @@
-class CustomerCollection {
+class List{
     public Customer[] customerArray;
     public Customer[] viewReportarray;
     public Customer[] bestCusarray;
@@ -10,6 +10,10 @@ class CustomerCollection {
     private String OderID;
     public int orderNumber = 1;
     private double amount;
+    private int nextIndex;
+	private double loadFact;
+	private int initSize;
+
 
     int tempMcount;
     int tempXScount;
@@ -26,8 +30,12 @@ class CustomerCollection {
     double XXLamount;
     double Totalamount;
 
-    CustomerCollection() {
-        customerArray = new Customer[0];
+    List(int initSize, double loadFact) {
+        this.initSize=initSize;
+		customerArray=new Customer[initSize];
+		
+		nextIndex=0;
+		this.loadFact=loadFact;
 
     }
 
@@ -94,26 +102,30 @@ class CustomerCollection {
         return amount;
     }
 
-    public boolean addCustomer(Customer customer) {
-        extendsArray();
-        customerArray[customerArray.length - 1] = customer;
+    public boolean add(Customer customer) {
+        if(nextIndex>=customerArray.length){
+			extendsArray();
+		}
+		customerArray[nextIndex++]=customer;
+
         return true;
 
     }
 
-    private void extendsArray() {
-        Customer[] tempCustomerArray = new Customer[customerArray.length + 1];
-        for (int i = 0; i < customerArray.length; i++) {
-            tempCustomerArray[i] = customerArray[i];
-        }
-        customerArray = tempCustomerArray;
-    }
+    private void extendsArray(){
+		Customer[] tempCustomerArray=new Customer[customerArray.length+(int)(customerArray.length*loadFact)];
+		for (int i = 0; i < customerArray.length; i++){
+			tempCustomerArray[i]=customerArray[i];
+		}
+		customerArray=tempCustomerArray;
+	}
+
 
     public boolean searchCustomer(String num) {
         boolean isCorrect = false;
         resetcount();
 
-        for (int i = 0; i < customerArray.length; i++) {
+        for (int i = 0; i < nextIndex ; i++) {
 
             if (num.equals(customerArray[i].getNumber())) {
                 isCorrect = true;
@@ -164,11 +176,11 @@ class CustomerCollection {
     }
 
     public void getviewCustomers() {
-        boolean[] processed = new boolean[customerArray.length];
-        viewReportarray = new Customer[customerArray.length];
+        boolean[] processed = new boolean[nextIndex];
+        viewReportarray = new Customer[nextIndex];
 
         validCount = 0;
-        for (int i = 0; i < customerArray.length; i++) {
+        for (int i = 0; i < nextIndex; i++) {
             if (processed[i]) {
                 continue;
             }
@@ -178,7 +190,7 @@ class CustomerCollection {
             double tempamount = customerArray[i].getamount();
             processed[i] = true;
 
-            for (int j = i + 1; j < customerArray.length; j++) {
+            for (int j = i + 1; j < nextIndex; j++) {
                 if (customerArray[i].getNumber().equals(customerArray[j].getNumber())) {
                     tempqty += customerArray[j].getQty();
                     tempamount += customerArray[j].getamount();
@@ -194,11 +206,11 @@ class CustomerCollection {
     }
 
     public void getBestCustomer() {
-        boolean[] processed = new boolean[customerArray.length];
-        bestCusarray = new Customer[customerArray.length];
+        boolean[] processed = new boolean[nextIndex];
+        bestCusarray = new Customer[nextIndex];
 
         validCount = 0;
-        for (int i = 0; i < customerArray.length; i++) {
+        for (int i = 0; i < nextIndex; i++) {
             if (processed[i]) {
                 continue;
             }
@@ -208,7 +220,7 @@ class CustomerCollection {
             double tempamount = customerArray[i].getamount();
             processed[i] = true;
 
-            for (int j = i + 1; j < customerArray.length; j++) {
+            for (int j = i + 1; j < nextIndex; j++) {
                 if (customerArray[i].getNumber().equals(customerArray[j].getNumber())) {
                     tempqty += customerArray[j].getQty();
                     tempamount += customerArray[j].getamount();
@@ -234,11 +246,11 @@ class CustomerCollection {
     }
 
     public void allcustomer() {
-        allCus = new Customer[customerArray.length];
-        boolean[] processed = new boolean[customerArray.length];
+        allCus = new Customer[nextIndex];
+        boolean[] processed = new boolean[nextIndex];
         validCount = 0;
 
-        for (int i = 0; i < customerArray.length; i++) {
+        for (int i = 0; i < nextIndex ; i++) {
             if (processed[i]) {
                 continue;
             }
@@ -274,7 +286,7 @@ class CustomerCollection {
             double tempamount = customerArray[i].getamount();
             processed[i] = true;
 
-            for (int j = i + 1; j < customerArray.length; j++) {
+            for (int j = i + 1; j < nextIndex ; j++) {
                 if (customerArray[i].getNumber().equals(customerArray[j].getNumber())) {
 
                     if (customerArray[j].getTshirtSize().equals("M")) {
@@ -314,7 +326,7 @@ class CustomerCollection {
 
     public void categorizedByQty() {
         sortqty = new sort[6];
-        boolean[] processed = new boolean[customerArray.length];
+        boolean[] processed = new boolean[nextIndex];
 
         int Mqty = 0;
         int XSqty = 0;
@@ -330,7 +342,7 @@ class CustomerCollection {
         double XLtotal = 0;
         double XXLtotal = 0;
 
-        for (int i = 0; i < customerArray.length; i++) {
+        for (int i = 0; i < nextIndex ; i++) {
 
             if (customerArray[i].getTshirtSize().equals("M")) {
                 Mqty += customerArray[i].getQty();
@@ -387,7 +399,9 @@ class CustomerCollection {
     }
 
     public int searchOrderId(String oderID) {
-        for (int i = 0; i < customerArray.length; i++) {
+        		
+
+        for (int i = 0; i < nextIndex ; i++) {
             if (customerArray[i].getId().equals(oderID)) {
                 return i;
             }
@@ -397,17 +411,17 @@ class CustomerCollection {
 
     public void odramount() {
 
-        odramount = new Customer[customerArray.length];
+        odramount = new Customer[nextIndex];
        
 
 
 
-        for (int i = 0; i < customerArray.length; i++) {
+        for (int i = 0; i < nextIndex; i++) {
             // copy previous data
             odramount[i] = customerArray[i];
         }
 
-        for (int i = customerArray.length - 1; i > 0; i--) {
+        for (int i = nextIndex - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (odramount[j].getamount() < odramount[j + 1].getamount()) {
                     Customer temp = odramount[j];
@@ -421,7 +435,7 @@ class CustomerCollection {
 
     public void sortByamount() {
         sortamount = new sort[6];
-        boolean[] processed = new boolean[customerArray.length];
+        boolean[] processed = new boolean[nextIndex];
 
         int Mqty = 0;
         int XSqty = 0;
@@ -437,7 +451,7 @@ class CustomerCollection {
         double XLtotal = 0;
         double XXLtotal = 0;
 
-        for (int i = 0; i < customerArray.length; i++) {
+        for (int i = 0; i < nextIndex; i++) {
 
             if (customerArray[i].getTshirtSize().equals("M")) {
                 Mqty += customerArray[i].getQty();
@@ -490,20 +504,39 @@ class CustomerCollection {
             }
         }
     }
-    public boolean sortarray(int deleteindex) {
-        Customer[] tempCusArray = new Customer[customerArray.length - 1]; // Correct size
-    
-        for (int i = 0, j = 0; i < customerArray.length; i++) {
-            if (i != deleteindex) {
-                tempCusArray[j] = customerArray[i]; // Copy valid entries
-                j++;
-            }
-        }
-        
-        customerArray = tempCusArray;
-        return true; // Update the global array reference
+    public boolean remove(int deleteindex) {
+        if(deleteindex>=0 && deleteindex<nextIndex){
+			for(int i=deleteindex; i<nextIndex-1; i++){
+				customerArray[i]=customerArray[i+1];
+
+			}
+			nextIndex--;
+            return true;
+		}
+        return false;
     }
 
+    public int size(){
+		return nextIndex;
+	}
+	public boolean isEmpty(){
+		return nextIndex<=0;
+	}
+	public int capacity(){
+		return customerArray.length;
+	}
+	public void clear(){
+		nextIndex=0;
+		customerArray=new Customer[initSize];
+	}
+
+    public Customer[] toArray(){
+		Customer[] tempCustomerArray=new Customer[nextIndex];
+		for (int i = 0; i < nextIndex; i++){
+			tempCustomerArray[i]=customerArray[(nextIndex-1)-i];
+		}
+		return tempCustomerArray;
+	}
 
     public void printCustomers() {
         System.out.printf("%-8s%-15s%-20s%8s%10s\n", "Id", "Contact", "TshirtSize", "Qty", "amount");
