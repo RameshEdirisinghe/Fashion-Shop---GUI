@@ -4,6 +4,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 
 class SearcherOrderID extends JFrame {
 
@@ -99,15 +100,38 @@ class SearcherOrderID extends JFrame {
                 String odrId= OrderIDField.getText();
                 int index = cus.searchOrderId(odrId);
 
-                if (index != -1) {
-                    String num = cus.customerArray[index].getNumber();
-                    CustomerIdField.setText(num);
-                    SizeField.setText(cus.customerArray[index].getTshirtSize());
-                    qtyField.setText(String.valueOf(cus.customerArray[index].getQty()));
-                    amountField.setText(String.valueOf(cus.customerArray[index].getamount()));
-                    statusField.setText(cus.customerArray[index].getstatus());
+                String newLine = null;
+                try{
+                    BufferedReader br = new BufferedReader(new FileReader("Customer.txt"));
+                    String line = br.readLine();
+                    while(line!=null){
+                        String id = line.substring(0,9);
+                        if(id.equalsIgnoreCase(OrderIDField.getText())){
+                            newLine=line;
+                            break;
+                        }
+                        line = br.readLine();
+                    }
+                }catch(IOException ex){
+
+                }
+                if(newLine!=null){
+                    String[] cusDetails = newLine.split(",");
+                    CustomerIdField.setText(cusDetails[1]);
+                    SizeField.setText(cusDetails[2]);
+                    qtyField.setText(cusDetails[3]);
+                    amountField.setText(cusDetails[4]);
+                    String status = null;
+                    if (cusDetails[5].equals("0")) {
+                        status="Processing";
+                    }else if(cusDetails[5].equals("1")){
+                        status="Delivering";
+                    }else if(cusDetails[5].equals("2")){
+                        status="Delivered";
+                    }
+                    statusField.setText(status);
                 }else{
-                    JOptionPane.showMessageDialog(SearcherOrderID.this,"Customer not found","Error",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Invalid Order ID","Error",JOptionPane.ERROR_MESSAGE);                    
                 }
             }
         });
