@@ -53,7 +53,7 @@ class placeOrder extends JFrame {
         customerIdField.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent evt) {
-                boolean isvalid = cus.validateContact(customerIdField.getText());
+                boolean isvalid = validateContact(customerIdField.getText());
 
                 if (!isvalid) {
                     JOptionPane.showMessageDialog(null, "Invalid Number.......");
@@ -72,7 +72,7 @@ class placeOrder extends JFrame {
         sizeField.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent evt) {
-                boolean isCorrect = cus.validateTsize(sizeField.getText());
+                boolean isCorrect = validateTsize(sizeField.getText());
 
                 if (!isCorrect) {
                     JOptionPane.showMessageDialog(null, "Invalid TshirtSize.......");
@@ -124,8 +124,8 @@ class placeOrder extends JFrame {
         placeButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent evt) {
-                boolean isvalid = cus.validateContact(customerIdField.getText());
-                boolean isCorrect = cus.validateTsize(sizeField.getText());
+                boolean isvalid = validateContact(customerIdField.getText());
+                boolean isCorrect = validateTsize(sizeField.getText());
 
                 if (!isvalid) {
                     JOptionPane.showMessageDialog(null, "Invalid Number.......");
@@ -149,9 +149,6 @@ class placeOrder extends JFrame {
                     } catch (IOException ex) {
                     }
 
-                    Customer c1 = new Customer(id, number, Tsize, qty, calculatedAmount, 0);
-                    cus.add(c1);
-                    cus.printCustomers();
                     dispose();
                     new placeOrder(cus).setVisible(true);
 
@@ -194,5 +191,25 @@ class placeOrder extends JFrame {
 			return String.format("ODR#%05d",lastIdNumber+1);
 		}
 	}
+
+    public boolean validateContact(String contact) {
+
+        if (contact.length() != 10 || contact.charAt(0) != '0') {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    public Boolean validateTsize(String tshirtsize) {
+        if (!(tshirtsize.equals("XS") || tshirtsize.equals("S") || tshirtsize.equals("L") || tshirtsize.equals("XL")
+                || tshirtsize.equals("M") || tshirtsize.equals("XXL"))) {
+
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 }

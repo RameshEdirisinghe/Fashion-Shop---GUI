@@ -39,44 +39,6 @@ class List{
 
     }
 
-    public String getOrderId() {
-
-        int tempOrderNumber = orderNumber;
-        int[] tempNumOrder = new int[5];
-        String idNum = "";
-        String tag = "ODR#";
-        OderID = "";
-        for (int i = 4; tempOrderNumber > 0; i--) {
-            tempNumOrder[i] = tempOrderNumber % 10;
-            tempOrderNumber /= 10;
-        }
-        for (int i = 0; i < tempNumOrder.length; i++) {
-            idNum += tempNumOrder[i];
-        }
-        OderID = tag + idNum;
-        return OderID;
-    }
-
-    public boolean validateContact(String contact) {
-
-        if (contact.length() != 10 || contact.charAt(0) != '0') {
-            return false;
-        } else {
-            return true;
-        }
-
-    }
-
-    public Boolean validateTsize(String tshirtsize) {
-        if (!(tshirtsize.equals("XS") || tshirtsize.equals("S") || tshirtsize.equals("L") || tshirtsize.equals("XL")
-                || tshirtsize.equals("M") || tshirtsize.equals("XXL"))) {
-
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     public double getamount(String tshirtsize, int QTY) {
         amount = 0;
         switch (tshirtsize) {
@@ -121,59 +83,6 @@ class List{
 	}
 
 
-    public boolean searchCustomer(String num) {
-        boolean isCorrect = false;
-        resetcount();
-
-        for (int i = 0; i < nextIndex ; i++) {
-
-            if (num.equals(customerArray[i].getNumber())) {
-                isCorrect = true;
-                if (customerArray[i].getTshirtSize().equals("M")) {
-                    tempMcount += customerArray[i].getQty();
-                } else if (customerArray[i].getTshirtSize().equals("XS")) {
-                    tempXScount += customerArray[i].getQty();
-                } else if (customerArray[i].getTshirtSize().equals("S")) {
-                    tempScount += customerArray[i].getQty();
-                } else if (customerArray[i].getTshirtSize().equals("L")) {
-                    tempLcount += customerArray[i].getQty();
-                } else if (customerArray[i].getTshirtSize().equals("XL")) {
-                    tempXLcount += customerArray[i].getQty();
-                } else if (customerArray[i].getTshirtSize().equals("XXL")) {
-                    tempXXLcount += customerArray[i].getQty();
-                }
-            }
-
-        }
-
-        Mamount = tempMcount * 900;
-        XLamount = tempXLcount * 1100;
-        XXLamount = tempXXLcount * 1200;
-        XSamount = tempXScount * 600;
-        Samount = tempScount * 800;
-        Lamount = tempLcount * 1000;
-        Totalamount = Mamount + XLamount + XXLamount + XSamount + Samount + Lamount;
-
-        return isCorrect;
-
-    }
-
-    public void resetcount() {
-        tempMcount = 0;
-        tempXScount = 0;
-        tempScount = 0;
-        tempLcount = 0;
-        tempXLcount = 0;
-        tempXXLcount = 0;
-
-        Mamount = 0;
-        XSamount = 0;
-        Samount = 0;
-        Lamount = 0;
-        XLamount = 0;
-        XXLamount = 0;
-        Totalamount = 0;
-    }
 
     public void getviewCustomers() {
         boolean[] processed = new boolean[nextIndex];

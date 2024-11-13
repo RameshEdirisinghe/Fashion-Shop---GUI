@@ -4,6 +4,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class SearchCustomer extends JFrame {
 
@@ -11,6 +14,8 @@ public class SearchCustomer extends JFrame {
     private JLabel totalLabel;
     private JScrollPane tableScrollPane;
 
+    private String newLine;
+    private boolean isFound;
     private int tempMcount = 0;
     private int tempXScount = 0;
     private int tempScount = 0;
@@ -27,6 +32,7 @@ public class SearchCustomer extends JFrame {
     private double Totalamount = 0;
 
     public SearchCustomer(List cus) {
+
         setTitle("Search Customer");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 450);
@@ -82,30 +88,29 @@ public class SearchCustomer extends JFrame {
         
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                resetcount();
                 String customerId = customerIdField.getText();
                 System.out.println("Search button clicked. Customer ID: " + customerId);
                 
-                
-                boolean isFound = cus.searchCustomer(customerId);
+            try{
+                BufferedReader br = new BufferedReader(new FileReader("Customer.txt"));
+                String Line = br.readLine();
+
+                while(Line != null){
+                    String phoneNum = Line.substring(10,20);
+                    if(phoneNum.equalsIgnoreCase(customerIdField.getText())){
+                        newLine=Line;
+                        String[] newar = Line.split(","); 
+                        isFound=true;
+                        searchCustomer(newar[2],Integer.parseInt(newar[3]));
+                    }
+                    Line=br.readLine();
+                }
+
+            }catch(IOException ex){}
+
                 if (isFound) {
                     
-                    tempLcount = cus.tempLcount;
-                    tempMcount = cus.tempMcount;
-                    tempXScount = cus.tempXScount;
-                    tempScount = cus.tempScount;
-                    tempXLcount = cus.tempXLcount;
-                    tempXXLcount = cus.tempXXLcount;
-
-                    Lamount = cus.Lamount;
-                    Mamount = cus.Mamount;
-                    XSamount = cus.XSamount;
-                    Samount = cus.Samount;
-                    XLamount = cus.XLamount;
-                    XXLamount = cus.XXLamount;
-
-                    Totalamount = cus.Totalamount;
-
-                
                     tableModel.setValueAt(tempLcount, 0, 1);
                     tableModel.setValueAt(Lamount, 0, 2);
                     tableModel.setValueAt(tempMcount, 1, 1);
@@ -143,6 +148,57 @@ public class SearchCustomer extends JFrame {
         });
 
         setVisible(true);
+    }
+
+
+    public boolean searchCustomer(String size, int qty) {
+        boolean isCorrect = false;
+        
+        isCorrect = true;
+        if (size.equals("M")) {
+                    tempMcount += qty;
+                } else if (size.equals("XS")) {
+                    tempXScount += qty;
+                } else if (size.equals("S")) {
+                    tempScount += qty;
+                } else if (size.equals("L")) {
+                    tempLcount += qty;
+                } else if (size.equals("XL")) {
+                    tempXLcount += qty;
+                } else if (size.equals("XXL")) {
+                    tempXXLcount += qty;
+                }
+            
+
+        
+
+        Mamount = tempMcount * 900;
+        XLamount = tempXLcount * 1100;
+        XXLamount = tempXXLcount * 1200;
+        XSamount = tempXScount * 600;
+        Samount = tempScount * 800;
+        Lamount = tempLcount * 1000;
+        Totalamount = Mamount + XLamount + XXLamount + XSamount + Samount + Lamount;
+
+        return isCorrect;
+
+    }
+
+    public void resetcount() {
+        tempMcount = 0;
+        tempXScount = 0;
+        tempScount = 0;
+        tempLcount = 0;
+        tempXLcount = 0;
+        tempXXLcount = 0;
+
+        Mamount = 0;
+        XSamount = 0;
+        Samount = 0;
+        Lamount = 0;
+        XLamount = 0;
+        XXLamount = 0;
+        Totalamount = 0;
     }
 
 }

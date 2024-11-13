@@ -97,8 +97,6 @@ class SearcherOrderID extends JFrame {
         searchButton.addActionListener(new ActionListener() {
             
             public void actionPerformed(ActionEvent evt){
-                String odrId= OrderIDField.getText();
-                int index = cus.searchOrderId(odrId);
 
                 String newLine = null;
                 try{
