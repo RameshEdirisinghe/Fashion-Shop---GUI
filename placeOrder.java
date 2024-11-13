@@ -144,7 +144,7 @@ class placeOrder extends JFrame {
 
                     try {
                         FileWriter fw = new FileWriter("Customer.txt", true);
-                        fw.write(id + "," + number + "," + Tsize + "," + qty + "," + calculatedAmount +","+ 0 + "\n");
+                        fw.write(id + "," + number + "," + Tsize + "," + qty + "," + calculatedAmount +","+ "Processing" + "\n");
                         fw.close();
                     } catch (IOException ex) {
                     }

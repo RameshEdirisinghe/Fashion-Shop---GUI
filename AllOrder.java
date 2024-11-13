@@ -3,8 +3,13 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 class AllOrder extends JFrame {
+    private String[] newar;
+    private int count=0;
     AllOrder(List cus) {
         setSize(400, 400);
         setTitle("All Orders");
@@ -12,7 +17,6 @@ class AllOrder extends JFrame {
         setLayout(null);
         setLocationRelativeTo(null);
 
-        cus.odramount();
         JButton back = new JButton("Back");
         back.setFont(new Font("Arial", Font.BOLD, 15));
         back.setForeground(Color.WHITE);
@@ -29,10 +33,19 @@ class AllOrder extends JFrame {
         String[] cols = { "OrderID", "CustomerID", "Size", "QTY", "Amount", "Status" };
         DefaultTableModel tbl = new DefaultTableModel(cols, 0);
 
-        for (int i = (cus.size())-1; i >=0; i--) {
-            Object[] row = { cus.customerArray[i].getId(), cus.customerArray[i].getNumber(), cus.customerArray[i].getTshirtSize(),cus.customerArray[i].getQty(), cus.customerArray[i].getamount(), cus.customerArray[i].getstatus() };
-            tbl.addRow(row);
-        }
+        
+            try {
+                BufferedReader br = new BufferedReader(new FileReader("Customer.txt"));
+                String Line = br.readLine();
+                while (Line != null) {
+                    newar = Line.split(",");
+                    Object[] row = { newar[0], newar[1], newar[2], newar[3],newar[4], newar[5] };
+                    tbl.addRow(row);
+                    Line = br.readLine();
+                }
+            } catch (IOException ex) {
+            }
+            
 
         JTable Table = new JTable(tbl);
         JScrollPane scroll = new JScrollPane(Table);

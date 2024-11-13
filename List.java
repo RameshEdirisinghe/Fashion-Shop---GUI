@@ -1,12 +1,12 @@
 class List{
-    public Customer[] customerArray;
-    public Customer[] viewReportarray;
-    public Customer[] bestCusarray;
-    public sort[] sortamount;
-    public sort[] sortqty;
-    public Customer[] odramount;
+    private Customer[] customerArray;
+    private int validCount;
+
+    
+   
+
     public Customer[] allCus;
-    int validCount;
+    
     private String OderID;
     public int orderNumber = 1;
     private double amount;
@@ -83,229 +83,11 @@ class List{
 	}
 
 
-
-    public void getviewCustomers() {
-        boolean[] processed = new boolean[nextIndex];
-        viewReportarray = new Customer[nextIndex];
-
-        validCount = 0;
-        for (int i = 0; i < nextIndex; i++) {
-            if (processed[i]) {
-                continue;
-            }
-
-            viewReportarray[validCount] = new Customer();
-            int tempqty = customerArray[i].getQty();
-            double tempamount = customerArray[i].getamount();
-            processed[i] = true;
-
-            for (int j = i + 1; j < nextIndex; j++) {
-                if (customerArray[i].getNumber().equals(customerArray[j].getNumber())) {
-                    tempqty += customerArray[j].getQty();
-                    tempamount += customerArray[j].getamount();
-                    processed[j] = true;
-                }
-            }
-
-            viewReportarray[validCount].setViewReportValues(customerArray[i].getNumber(), tempqty, tempamount);
-
-            validCount++;
-        }
-
+    public Customer[] getCustomerAr(){
+        return customerArray;
     }
+    
 
-    public void getBestCustomer() {
-        boolean[] processed = new boolean[nextIndex];
-        bestCusarray = new Customer[nextIndex];
-
-        validCount = 0;
-        for (int i = 0; i < nextIndex; i++) {
-            if (processed[i]) {
-                continue;
-            }
-
-            bestCusarray[validCount] = new Customer();
-            int tempqty = customerArray[i].getQty();
-            double tempamount = customerArray[i].getamount();
-            processed[i] = true;
-
-            for (int j = i + 1; j < nextIndex; j++) {
-                if (customerArray[i].getNumber().equals(customerArray[j].getNumber())) {
-                    tempqty += customerArray[j].getQty();
-                    tempamount += customerArray[j].getamount();
-                    processed[j] = true;
-                }
-            }
-
-            bestCusarray[validCount].setViewReportValues(customerArray[i].getNumber(), tempqty, tempamount);
-
-            validCount++;
-        }
-
-        for (int i = validCount - 1; i > 0; i--) {
-            for (int j = 0; j < i; j++) {
-                if (bestCusarray[j].getamount() < bestCusarray[j + 1].getamount()) {
-                    Customer temp = bestCusarray[j + 1];
-                    bestCusarray[j + 1] = bestCusarray[j];
-                    bestCusarray[j] = temp;
-                }
-            }
-        }
-
-    }
-
-    public void allcustomer() {
-        allCus = new Customer[nextIndex];
-        boolean[] processed = new boolean[nextIndex];
-        validCount = 0;
-
-        for (int i = 0; i < nextIndex ; i++) {
-            if (processed[i]) {
-                continue;
-            }
-
-            allCus[validCount] = new Customer();
-            int Mcount = 0;
-            int XScount = 0;
-            int Scount = 0;
-            int Lcount = 0;
-            int XLcount = 0;
-            int XXLcount = 0;
-
-            if (customerArray[i].getTshirtSize().equals("M")) {
-                Mcount = customerArray[i].getQty();
-
-            } else if (customerArray[i].getTshirtSize().equals("XS")) {
-                XScount = customerArray[i].getQty();
-
-            } else if (customerArray[i].getTshirtSize().equals("S")) {
-                Scount = customerArray[i].getQty();
-
-            } else if (customerArray[i].getTshirtSize().equals("L")) {
-                Lcount = customerArray[i].getQty();
-
-            } else if (customerArray[i].getTshirtSize().equals("XL")) {
-                XLcount = customerArray[i].getQty();
-
-            } else if (customerArray[i].getTshirtSize().equals("XXL")) {
-                XXLcount = customerArray[i].getQty();
-
-            }
-
-            double tempamount = customerArray[i].getamount();
-            processed[i] = true;
-
-            for (int j = i + 1; j < nextIndex ; j++) {
-                if (customerArray[i].getNumber().equals(customerArray[j].getNumber())) {
-
-                    if (customerArray[j].getTshirtSize().equals("M")) {
-                        Mcount += customerArray[j].getQty();
-
-                    } else if (customerArray[j].getTshirtSize().equals("XS")) {
-                        XScount += customerArray[j].getQty();
-
-                    } else if (customerArray[j].getTshirtSize().equals("S")) {
-                        Scount += customerArray[j].getQty();
-
-                    } else if (customerArray[j].getTshirtSize().equals("L")) {
-                        Lcount += customerArray[j].getQty();
-
-                    } else if (customerArray[j].getTshirtSize().equals("XL")) {
-                        XLcount += customerArray[j].getQty();
-
-                    } else if (customerArray[j].getTshirtSize().equals("XXL")) {
-                        tempXXLcount += customerArray[j].getQty();
-                    }
-                    tempamount += customerArray[j].getamount();
-                    processed[j] = true;
-                }
-            }
-
-            allCus[validCount].setallcustomerValues(customerArray[i].getNumber(), XScount, Scount, Mcount, Lcount,
-                    XLcount,
-                    XXLcount, tempamount);
-
-            // for (int j = 0; j < validCount; j++) {
-            // System.out.println(allCus[i].getNumber()+""+allCus[i].getXL());
-            // }
-            validCount++;
-
-        }
-    }
-
-    public void categorizedByQty() {
-        sortqty = new sort[6];
-        boolean[] processed = new boolean[nextIndex];
-
-        int Mqty = 0;
-        int XSqty = 0;
-        int Sqty = 0;
-        int Lqty = 0;
-        int XLqty = 0;
-        int XXLqty = 0;
-
-        double Mtotal = 0;
-        double XStotal = 0;
-        double Stotal = 0;
-        double Ltotal = 0;
-        double XLtotal = 0;
-        double XXLtotal = 0;
-
-        for (int i = 0; i < nextIndex ; i++) {
-
-            if (customerArray[i].getTshirtSize().equals("M")) {
-                Mqty += customerArray[i].getQty();
-
-            } else if (customerArray[i].getTshirtSize().equals("XL")) {
-                XLqty += customerArray[i].getQty();
-
-            } else if (customerArray[i].getTshirtSize().equals("XS")) {
-                XSqty += customerArray[i].getQty();
-
-            } else if (customerArray[i].getTshirtSize().equals("S")) {
-                Sqty += customerArray[i].getQty();
-
-            } else if (customerArray[i].getTshirtSize().equals("XXL")) {
-                XXLqty += customerArray[i].getQty();
-
-            } else if (customerArray[i].getTshirtSize().equals("L")) {
-                Lqty += customerArray[i].getQty();
-
-            }
-
-        }
-        Mtotal = Mqty * 900;
-        XLtotal = XLqty * 1100;
-        XStotal = XSqty * 600;
-        Stotal = Sqty * 900;
-        Ltotal = Lqty * 1000;
-        XXLtotal = XXLqty * 1200;
-
-        sortqty[0] = new sort();
-        sortqty[0].setByqty("XS", XSqty, XStotal);
-        sortqty[1] = new sort();
-        sortqty[1].setByqty("S", Sqty, Stotal);
-        sortqty[2] = new sort();
-        sortqty[2].setByqty("M", Mqty, Mtotal);
-        sortqty[3] = new sort();
-        sortqty[3].setByqty("L", Lqty, Ltotal);
-        sortqty[4] = new sort();
-        sortqty[4].setByqty("XL", XLqty, XLtotal);
-        sortqty[5] = new sort();
-        sortqty[5].setByqty("XXL", XXLqty, XXLtotal);
-
-        for (int i = 5; i > 0; i--) {
-
-            for (int j = 0; j < i; j++) {
-                if (sortqty[j].getqty() < sortqty[j + 1].getqty()) {
-                    sort temp = sortqty[j];
-                    sortqty[j] = sortqty[j + 1];
-                    sortqty[j + 1] = temp;
-                }
-            }
-        }
-
-    }
 
     public int searchOrderId(String oderID) {
         		
@@ -318,101 +100,7 @@ class List{
         return -1;
     }
 
-    public void odramount() {
-
-        odramount = new Customer[nextIndex];
-       
-
-
-
-        for (int i = 0; i < nextIndex; i++) {
-            // copy previous data
-            odramount[i] = customerArray[i];
-        }
-
-        for (int i = nextIndex - 1; i > 0; i--) {
-            for (int j = 0; j < i; j++) {
-                if (odramount[j].getamount() < odramount[j + 1].getamount()) {
-                    Customer temp = odramount[j];
-                    odramount[j] = odramount[j + 1];
-                    odramount[j + 1] = temp;
-                }
-            }
-        }
-    }
-
-
-    public void sortByamount() {
-        sortamount = new sort[6];
-        boolean[] processed = new boolean[nextIndex];
-
-        int Mqty = 0;
-        int XSqty = 0;
-        int Sqty = 0;
-        int Lqty = 0;
-        int XLqty = 0;
-        int XXLqty = 0;
-
-        double Mtotal = 0;
-        double XStotal = 0;
-        double Stotal = 0;
-        double Ltotal = 0;
-        double XLtotal = 0;
-        double XXLtotal = 0;
-
-        for (int i = 0; i < nextIndex; i++) {
-
-            if (customerArray[i].getTshirtSize().equals("M")) {
-                Mqty += customerArray[i].getQty();
-
-            } else if (customerArray[i].getTshirtSize().equals("XL")) {
-                XLqty += customerArray[i].getQty();
-
-            } else if (customerArray[i].getTshirtSize().equals("XS")) {
-                XSqty += customerArray[i].getQty();
-
-            } else if (customerArray[i].getTshirtSize().equals("S")) {
-                Sqty += customerArray[i].getQty();
-
-            } else if (customerArray[i].getTshirtSize().equals("XXL")) {
-                XXLqty += customerArray[i].getQty();
-
-            } else if (customerArray[i].getTshirtSize().equals("L")) {
-                Lqty += customerArray[i].getQty();
-
-            }
-
-        }
-        Mtotal = Mqty * 900;
-        XLtotal = XLqty * 1100;
-        XStotal = XSqty * 600;
-        Stotal = Sqty * 900;
-        Ltotal = Lqty * 1000;
-        XXLtotal = XXLqty * 1200;
-
-        sortamount[0] = new sort();
-        sortamount[0].setByqty("XS", XSqty, XStotal);
-        sortamount[1] = new sort();
-        sortamount[1].setByqty("S", Sqty, Stotal);
-        sortamount[2] = new sort();
-        sortamount[2].setByqty("M", Mqty, Mtotal);
-        sortamount[3] = new sort();
-        sortamount[3].setByqty("L", Lqty, Ltotal);
-        sortamount[4] = new sort();
-        sortamount[4].setByqty("XL", XLqty, XLtotal);
-        sortamount[5] = new sort();
-        sortamount[5].setByqty("XXL", XXLqty, XXLtotal);
-        for (int i = 5; i > 0; i--) {
-
-            for (int j = 0; j < i; j++) {
-                if (sortamount[j].getamount() < sortamount[j + 1].getamount()) {
-                    sort temp = sortamount[j];
-                    sortamount[j] = sortamount[j + 1];
-                    sortamount[j + 1] = temp;
-                }
-            }
-        }
-    }
+    
     public boolean remove(int deleteindex) {
         if(deleteindex>=0 && deleteindex<nextIndex){
 			for(int i=deleteindex; i<nextIndex-1; i++){
@@ -424,6 +112,11 @@ class List{
 		}
         return false;
     }
+
+    public Customer get(int index) {
+        return customerArray[index];
+    }
+
 
     public int size(){
 		return nextIndex;
@@ -463,7 +156,7 @@ class Customer {
     private String TshirtSize;
     private int Qty;
     private double amount;
-    private int status;
+    private String status;
     private int XS;
     private int S;
     private int M;
@@ -474,7 +167,7 @@ class Customer {
     Customer() {
     }
 
-    Customer(String id, String ContactNumber, String TshirtSize, int Qty, double amount, int status) {
+    Customer(String id, String ContactNumber, String TshirtSize, int Qty, double amount, String status) {
         this.id = id;
         this.ContactNumber = ContactNumber;
         this.TshirtSize = TshirtSize;
@@ -490,12 +183,13 @@ class Customer {
         this.amount = amount;
 
     }
-    public void setStatus(int status){
+    public void setStatus(String status){
         this.status=status;
     }
 
     public String toString() {
-        return String.format("%-8s%-15s%-20s%10d%010.2f", id, ContactNumber, TshirtSize, Qty, amount);
+        return id+","+ContactNumber+","+TshirtSize+","+String.valueOf(Qty)+","+String.valueOf(amount)+","+String.valueOf(status);
+
     }
 
     public String getId() {
@@ -520,16 +214,9 @@ class Customer {
 
     public String getstatus() {
 
-        if (status == 0) {
-            return "Processing";
-        } else if (status == 1) {
-            return "Delivering";
 
-        } else if (status == 2) {
-            return "Delivered";
-        } else {
-            return null;
-        }
+            return status;
+
     }
     
 

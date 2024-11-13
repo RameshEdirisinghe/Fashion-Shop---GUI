@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 class DeleteOrder extends JFrame {
 
@@ -15,6 +19,9 @@ class DeleteOrder extends JFrame {
     private JLabel lblQty;
     private JLabel lblAmount;
     private JLabel lblStatus;
+
+    List cusList = new List(100, 0.5);
+    private FileWriter fw;
 
     DeleteOrder(List cus) {
         setSize(500, 500);
@@ -115,16 +122,31 @@ class DeleteOrder extends JFrame {
                 String odrId = OrderIDField.getText();
                 index = cus.searchOrderId(odrId);
 
-                if (index != -1) {
-                    String num = cus.customerArray[index].getNumber();
-                    CustomerIdField.setText(num);
-                    SizeField.setText(cus.customerArray[index].getTshirtSize());
-                    qtyField.setText(String.valueOf(cus.customerArray[index].getQty()));
-                    amountField.setText(String.valueOf(cus.customerArray[index].getamount()));
-                    statusField.setText(cus.customerArray[index].getstatus());
+                String newLine = null;
+                try {
+                    BufferedReader br = new BufferedReader(new FileReader("Customer.txt"));
+                    String line = br.readLine();
+                    while (line != null) {
+                        String id = line.substring(0, 9);
+
+                        if (id.equalsIgnoreCase(OrderIDField.getText())) {
+                            newLine = line;
+                        }
+
+                        line = br.readLine();
+                    }
+                } catch (IOException ex) {
+
+                }
+                if (newLine != null) {
+                    String[] cusDetails = newLine.split(",");
+                    CustomerIdField.setText(cusDetails[1]);
+                    SizeField.setText(cusDetails[2]);
+                    qtyField.setText(cusDetails[3]);
+                    amountField.setText(cusDetails[4]);
+                    statusField.setText(cusDetails[5]);
                 } else {
-                    JOptionPane.showMessageDialog(DeleteOrder.this, "Customer not found", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Invalid Order ID", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
             }
@@ -139,8 +161,36 @@ class DeleteOrder extends JFrame {
 
                 switch (choice) {
                     case 0:
-                        boolean isDelete = cus.remove(index);
-                        if (isDelete) {
+
+                        try {
+                            BufferedReader br = new BufferedReader(new FileReader("Customer.txt"));
+                            String Line = br.readLine();
+                            while (Line != null) {
+                                String[] newar = Line.split(",");
+                                Line = br.readLine();
+                                if (newar[0].equalsIgnoreCase(OrderIDField.getText())) {
+                                    continue;
+                                }
+                                    Customer cuss = new Customer(newar[0], newar[1], newar[2], Integer.parseInt(newar[3]),
+                                        Double.parseDouble(newar[4]), newar[5]);
+                                cusList.add(cuss);
+
+                                
+
+                            }
+
+                            FileWriter fw = new FileWriter("Customer.txt");
+                            for (int i = 0; i < cusList.size(); i++) {
+                                System.out.println("hi");
+                                Customer c1 = cusList.get(i);
+                                fw.write(c1.toString() + "\n");
+                            }
+                            fw.close();
+
+                        } catch (IOException ex) {
+                        }
+
+                        if (true) {
                             JOptionPane.showMessageDialog(null, "Order Delete Succesfull", "DeleteOrder",
                                     JOptionPane.INFORMATION_MESSAGE);
                         }

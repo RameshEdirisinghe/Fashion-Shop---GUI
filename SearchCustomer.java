@@ -99,7 +99,7 @@ public class SearchCustomer extends JFrame {
                 while(Line != null){
                     String phoneNum = Line.substring(10,20);
                     if(phoneNum.equalsIgnoreCase(customerIdField.getText())){
-                        newLine=Line;
+
                         String[] newar = Line.split(","); 
                         isFound=true;
                         searchCustomer(newar[2],Integer.parseInt(newar[3]));
@@ -157,7 +157,7 @@ public class SearchCustomer extends JFrame {
         isCorrect = true;
         if (size.equals("M")) {
                     tempMcount += qty;
-                } else if (size.equals("XS")) {
+         } else if (size.equals("XS")) {
                     tempXScount += qty;
                 } else if (size.equals("S")) {
                     tempScount += qty;

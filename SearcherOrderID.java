@@ -119,15 +119,7 @@ class SearcherOrderID extends JFrame {
                     SizeField.setText(cusDetails[2]);
                     qtyField.setText(cusDetails[3]);
                     amountField.setText(cusDetails[4]);
-                    String status = null;
-                    if (cusDetails[5].equals("0")) {
-                        status="Processing";
-                    }else if(cusDetails[5].equals("1")){
-                        status="Delivering";
-                    }else if(cusDetails[5].equals("2")){
-                        status="Delivered";
-                    }
-                    statusField.setText(status);
+                    statusField.setText(cusDetails[5]);
                 }else{
                     JOptionPane.showMessageDialog(null,"Invalid Order ID","Error",JOptionPane.ERROR_MESSAGE);                    
                 }
