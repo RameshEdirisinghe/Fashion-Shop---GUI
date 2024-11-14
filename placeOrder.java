@@ -106,7 +106,7 @@ class placeOrder extends JFrame {
 
             public void actionPerformed(ActionEvent evt) {
                 int qty = Integer.parseInt(qtyField.getText());
-                double amount = cus.getamount(sizeField.getText(), qty);
+                double amount = getamount(sizeField.getText(), qty);
                 amountField.setText(String.valueOf(amount));
             }
         });
@@ -135,7 +135,7 @@ class placeOrder extends JFrame {
                     sizeField.setText("");
                 } else {
                     int qty = Integer.parseInt(qtyField.getText());
-                    double calculatedAmount = cus.getamount(sizeField.getText(), qty);
+                    double calculatedAmount = getamount(sizeField.getText(), qty);
                     amountField.setText(String.valueOf(calculatedAmount));
 
                     String id = orderIdLabel.getText();
@@ -210,6 +210,31 @@ class placeOrder extends JFrame {
         } else {
             return true;
         }
+    }
+
+    public double getamount(String tshirtsize, int QTY) {
+        amount = 0;
+        switch (tshirtsize) {
+            case "XS":
+                amount = 600 * QTY;
+                break;
+            case "S":
+                amount = 800 * QTY;
+                break;
+            case "M":
+                amount = 900 * QTY;
+                break;
+            case "L":
+                amount = 1000 * QTY;
+                break;
+            case "XL":
+                amount = 1100 * QTY;
+            case "XXL":
+                amount = 1200 * QTY;
+            default:
+                break;
+        }
+        return amount;
     }
 
 }

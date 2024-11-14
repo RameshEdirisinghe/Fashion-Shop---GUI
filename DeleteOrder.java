@@ -120,7 +120,6 @@ class DeleteOrder extends JFrame {
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 String odrId = OrderIDField.getText();
-                index = cus.searchOrderId(odrId);
 
                 String newLine = null;
                 try {

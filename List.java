@@ -39,31 +39,6 @@ class List{
 
     }
 
-    public double getamount(String tshirtsize, int QTY) {
-        amount = 0;
-        switch (tshirtsize) {
-            case "XS":
-                amount = 600 * QTY;
-                break;
-            case "S":
-                amount = 800 * QTY;
-                break;
-            case "M":
-                amount = 900 * QTY;
-                break;
-            case "L":
-                amount = 1000 * QTY;
-                break;
-            case "XL":
-                amount = 1100 * QTY;
-            case "XXL":
-                amount = 1200 * QTY;
-            default:
-                break;
-        }
-        return amount;
-    }
-
     public boolean add(Customer customer) {
         if(nextIndex>=customerArray.length){
 			extendsArray();
@@ -85,19 +60,6 @@ class List{
 
     public Customer[] getCustomerAr(){
         return customerArray;
-    }
-    
-
-
-    public int searchOrderId(String oderID) {
-        		
-
-        for (int i = 0; i < nextIndex ; i++) {
-            if (customerArray[i].getId().equals(oderID)) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     

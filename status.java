@@ -3,9 +3,15 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
 
 class status extends JFrame {
     private int index;
+    List cusList = new List(100, 0.5);
 
     status(List cus) {
         setTitle("Status");
@@ -25,7 +31,6 @@ class status extends JFrame {
                 new HomePage(cus).setVisible(true);
             }
         });
-       
 
         JLabel oderJLabel = new JLabel("Enter Order ID :");
         oderJLabel.setFont(new Font("Arial", Font.BOLD, 15));
@@ -96,19 +101,32 @@ class status extends JFrame {
         searchButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent evt) {
-                String odrId = OrderIDField.getText();
-                index = cus.searchOrderId(odrId);
 
-                if (index != -1) {
-                    String num = cus.customerArray[index].getNumber();
-                    CustomerIdField.setText(num);
-                    SizeField.setText(cus.customerArray[index].getTshirtSize());
-                    qtyField.setText(String.valueOf(cus.customerArray[index].getQty()));
-                    amountField.setText(String.valueOf(cus.customerArray[index].getamount()));
-                    statusField.setText(cus.customerArray[index].getstatus());
+                String newLine = null;
+                try {
+                    BufferedReader br = new BufferedReader(new FileReader("Customer.txt"));
+                    String line = br.readLine();
+                    while (line != null) {
+                        String id = line.substring(0, 9);
+
+                        if (id.equalsIgnoreCase(OrderIDField.getText())) {
+                            newLine = line;
+                        }
+
+                        line = br.readLine();
+                    }
+                } catch (IOException ex) {
+
+                }
+                if (newLine != null) {
+                    String[] cusDetails = newLine.split(",");
+                    CustomerIdField.setText(cusDetails[1]);
+                    SizeField.setText(cusDetails[2]);
+                    qtyField.setText(cusDetails[3]);
+                    amountField.setText(cusDetails[4]);
+                    statusField.setText(cusDetails[5]);
                 } else {
-                    JOptionPane.showMessageDialog(status.this, "Customer not found", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Invalid Order ID", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -123,10 +141,25 @@ class status extends JFrame {
         changeStatus.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("button clicked");
-                String statusss=cus.customerArray[index].getstatus();
-                System.out.println(cus.customerArray[index].getstatus());
-                System.out.println(statusss.equals("Processing"));
-                if (statusss.equals("Processing")) {
+                String newLine = null;
+                String st = null;
+                try {
+                    BufferedReader br = new BufferedReader(new FileReader("Customer.txt"));
+                    String line = br.readLine();
+                    while (line != null) {
+                        String[] newar = line.split(",");
+
+                        if (newar[0].equalsIgnoreCase(OrderIDField.getText())) {
+                            st = newar[5];
+                            newLine = line;
+                        }
+
+                        line = br.readLine();
+                    }
+                } catch (Exception ex) {
+                }
+
+                if (st.equals("Processing")) {
                     String[] option = { "Delivering", "Delivered" };
                     int choice = JOptionPane.showOptionDialog(null,
                             "Please select the option",
@@ -138,24 +171,85 @@ class status extends JFrame {
 
                     switch (choice) {
                         case 0:
-                            cus.customerArray[index].setStatus(1);
+                            try {
+                                BufferedReader br = new BufferedReader(new FileReader("Customer.txt"));
+                                String line = br.readLine();
+                                while (line != null) {
+                                    String[] newar = line.split(",");
+
+                                    if (newar[0].equalsIgnoreCase(OrderIDField.getText())) {
+                                        Customer cuss = new Customer(newar[0], newar[1], newar[2],Integer.parseInt(newar[3]), Double.parseDouble(newar[4]), "Delivering");
+                                        cusList.add(cuss);
+                                    } else {
+                                        Customer cuss = new Customer(newar[0], newar[1], newar[2],Integer.parseInt(newar[3]), Double.parseDouble(newar[4]), newar[5]);
+                                        cusList.add(cuss);
+                                    }
+
+                                    line = br.readLine();
+                                }
+
+                                FileWriter();
+
+                            } catch (IOException ex) {
+                            }
+
                             break;
                         case 1:
-                            cus.customerArray[index].setStatus(2);
+                            try {
+                                BufferedReader br = new BufferedReader(new FileReader("Customer.txt"));
+                                String line = br.readLine();
+                                while (line != null) {
+                                    String[] newar = line.split(",");
+
+                                    if (newar[0].equalsIgnoreCase(OrderIDField.getText())) {
+                                        Customer cuss = new Customer(newar[0], newar[1], newar[2],
+                                                Integer.parseInt(newar[3]), Double.parseDouble(newar[4]), "Delivered");
+                                        cusList.add(cuss);
+                                    } else {
+                                        Customer cuss = new Customer(newar[0], newar[1], newar[2],
+                                                Integer.parseInt(newar[3]), Double.parseDouble(newar[4]), newar[5]);
+                                        cusList.add(cuss);
+                                    }
+
+                                    line = br.readLine();
+                                }
+                                FileWriter();
+                            } catch (IOException ex) {
+                            }
                             break;
                         default:
                             break;
                     }
-                } else if (statusField.getText().equals("Delivering")) {
+                } else if (st.equals("Delivering")) {
                     String[] option = { "Delivered" };
                     int choice = JOptionPane.showOptionDialog(null, "Select Option", "Status Option",
                             JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, option, option[0]);
 
                     switch (choice) {
                         case 0:
-                            cus.customerArray[index].setStatus(2);
+                            try {
+                                BufferedReader br = new BufferedReader(new FileReader("Customer.txt"));
+                                String line = br.readLine();
+                                while (line != null) {
+                                    String[] newar = line.split(",");
+
+                                    if (newar[0].equalsIgnoreCase(OrderIDField.getText())) {
+                                        Customer cuss = new Customer(newar[0], newar[1], newar[2],
+                                                Integer.parseInt(newar[3]), Double.parseDouble(newar[4]), "Delivered");
+                                        cusList.add(cuss);
+                                    } else {
+                                        Customer cuss = new Customer(newar[0], newar[1], newar[2],
+                                                Integer.parseInt(newar[3]), Double.parseDouble(newar[4]), newar[5]);
+                                        cusList.add(cuss);
+                                    }
+
+                                    line = br.readLine();
+                                }
+                                FileWriter();
+                            } catch (IOException ex) {
+                            }
                             break;
-                    
+
                         default:
                             break;
                     }
@@ -163,5 +257,18 @@ class status extends JFrame {
             }
         });
 
+    }
+
+    public void FileWriter() {
+        try {
+            FileWriter fw = new FileWriter("Customer.txt");
+            for (int i = 0; i < cusList.size(); i++) {
+                fw.write(cusList.getCustomerAr()[i].getId() + "," + cusList.getCustomerAr()[i].getNumber() + "," + cusList.getCustomerAr()[i].getTshirtSize()  + "," + cusList.getCustomerAr()[i].getQty()  + "," + cusList.getCustomerAr()[i].getamount()  +","+ cusList.getCustomerAr()[i].getstatus()  + "\n");
+                
+            }
+            fw.close();
+
+        } catch (IOException ex) {
+        }
     }
 }
