@@ -2,18 +2,13 @@ class List{
     private Customer[] customerArray;
     private int validCount;
 
-    
-   
-
     public Customer[] allCus;
-    
     private String OderID;
     public int orderNumber = 1;
     private double amount;
     private int nextIndex;
 	private double loadFact;
 	private int initSize;
-
 
     int tempMcount;
     int tempXScount;
@@ -30,10 +25,12 @@ class List{
     double XXLamount;
     double Totalamount;
 
+    private Node start;
+
     List(int initSize, double loadFact) {
         this.initSize=initSize;
 		customerArray=new Customer[initSize];
-		
+
 		nextIndex=0;
 		this.loadFact=loadFact;
 
@@ -49,6 +46,24 @@ class List{
 
     }
 
+
+    public void addLast(Customer customer){
+        Node n1 = new Node(customer);
+        n1.next=start;
+        start=n1;
+    }
+
+    public int size(){
+		Node temp=start;
+		int count=0;
+		while(temp!=null){
+			count++;
+			temp=temp.next;
+		}		
+		return count;
+	}
+
+
     private void extendsArray(){
 		Customer[] tempCustomerArray=new Customer[customerArray.length+(int)(customerArray.length*loadFact)];
 		for (int i = 0; i < customerArray.length; i++){
@@ -57,11 +72,12 @@ class List{
 		customerArray=tempCustomerArray;
 	}
 
-
     public Customer[] getCustomerAr(){
         return customerArray;
     }
-
+    public Node start(){
+        return start;
+    }
     
     public boolean remove(int deleteindex) {
         if(deleteindex>=0 && deleteindex<nextIndex){
@@ -79,10 +95,7 @@ class List{
         return customerArray[index];
     }
 
-
-    public int size(){
-		return nextIndex;
-	}
+    
 	public boolean isEmpty(){
 		return nextIndex<=0;
 	}
@@ -110,9 +123,23 @@ class List{
         }
     }
 
+    class Node{
+        private Node next;
+        private Customer customer;
+    
+        Node(Customer customer) {
+            this.customer=customer;
+        }
+    
+    }
+    
+
 }
 
+
+
 class Customer {
+
     private String id;
     private String ContactNumber;
     private String TshirtSize;
@@ -127,6 +154,7 @@ class Customer {
     private int XXL;
 
     Customer() {
+
     }
 
     Customer(String id, String ContactNumber, String TshirtSize, int Qty, double amount, String status) {
@@ -176,8 +204,7 @@ class Customer {
 
     public String getstatus() {
 
-
-            return status;
+         return status;
 
     }
     

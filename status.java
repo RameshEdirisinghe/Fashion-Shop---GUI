@@ -19,7 +19,8 @@ class status extends JFrame {
         setDefaultCloseOperation(2);
         setLayout(null);
         setLocationRelativeTo(null);
-
+        setResizable(false);
+        
         JButton backButton = new JButton("Back");
         backButton.setForeground(Color.WHITE);
         backButton.setBackground(new Color(255, 102, 102));

@@ -14,7 +14,8 @@ public class Reports extends JFrame {
         setSize(600,300);
         setLocationRelativeTo(null);
         setLayout(null);
-
+        setResizable(false);
+        
         JButton BackButton = new JButton("Back");
         BackButton.setFont(new Font("Arial",Font.BOLD,15));
         BackButton.setForeground(Color.WHITE);

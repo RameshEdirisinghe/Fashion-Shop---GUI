@@ -14,7 +14,8 @@ class SearcherOrderID extends JFrame {
         setSize(400, 450);
         setLocationRelativeTo(null);
         setLayout(null);
-
+        setResizable(false);
+        
         JButton backButton = new JButton("Back");
         backButton.setForeground(Color.WHITE);
         backButton.setBackground(Color.red);

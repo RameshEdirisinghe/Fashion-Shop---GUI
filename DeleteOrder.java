@@ -29,7 +29,8 @@ class DeleteOrder extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
-
+        setResizable(false);
+        
         btnBack = new JButton("BACK");
         btnBack.setBackground(Color.RED);
         btnBack.setForeground(Color.WHITE);

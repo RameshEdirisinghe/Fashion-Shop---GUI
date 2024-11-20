@@ -19,7 +19,8 @@ class catByQty extends JFrame {
         setDefaultCloseOperation(2);
         setLayout(null);
         setLocationRelativeTo(null);
-
+        setResizable(false);
+        
         categorizedByQty();
         JButton back = new JButton("Back");
         back.setFont(new Font("Arial",Font.BOLD,15));

@@ -37,7 +37,8 @@ public class SearchCustomer extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 450);
         setLocationRelativeTo(null);
-
+        setResizable(false);
+        
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         add(mainPanel);
@@ -63,7 +64,6 @@ public class SearchCustomer extends JFrame {
 
         mainPanel.add(northPanel, BorderLayout.NORTH);
 
-        
         String[] columns = { "Size", "QTY", "Amount" };
         Object[][] initialData = {
                 { "L", tempLcount, Lamount },
@@ -85,32 +85,32 @@ public class SearchCustomer extends JFrame {
         footerPanel.add(totalLabel);
         mainPanel.add(footerPanel, BorderLayout.SOUTH);
 
-        
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 resetcount();
                 String customerId = customerIdField.getText();
                 System.out.println("Search button clicked. Customer ID: " + customerId);
-                
-            try{
-                BufferedReader br = new BufferedReader(new FileReader("Customer.txt"));
-                String Line = br.readLine();
 
-                while(Line != null){
-                    String phoneNum = Line.substring(10,20);
-                    if(phoneNum.equalsIgnoreCase(customerIdField.getText())){
+                try {
+                    BufferedReader br = new BufferedReader(new FileReader("Customer.txt"));
+                    String Line = br.readLine();
 
-                        String[] newar = Line.split(","); 
-                        isFound=true;
-                        searchCustomer(newar[2],Integer.parseInt(newar[3]));
+                    while (Line != null) {
+                        String phoneNum = Line.substring(10, 20);
+                        if (phoneNum.equalsIgnoreCase(customerIdField.getText())) {
+
+                            String[] newar = Line.split(",");
+                            isFound = true;
+                            searchCustomer(newar[2], Integer.parseInt(newar[3]));
+                        }
+                        Line = br.readLine();
                     }
-                    Line=br.readLine();
+
+                } catch (IOException ex) {
                 }
 
-            }catch(IOException ex){}
-
                 if (isFound) {
-                    
+
                     tableModel.setValueAt(tempLcount, 0, 1);
                     tableModel.setValueAt(Lamount, 0, 2);
                     tableModel.setValueAt(tempMcount, 1, 1);
@@ -124,13 +124,11 @@ public class SearchCustomer extends JFrame {
                     tableModel.setValueAt(tempXXLcount, 5, 1);
                     tableModel.setValueAt(XXLamount, 5, 2);
 
-                    
                     totalLabel.setText(String.format("%.2f", Totalamount));
 
-                   
                     tableModel.fireTableDataChanged();
                     mainPanel.revalidate();
-                    
+
                     mainPanel.repaint();
                 } else {
                     JOptionPane.showMessageDialog(mainPanel, "Customer not found", "Error", JOptionPane.ERROR_MESSAGE);
@@ -138,7 +136,6 @@ public class SearchCustomer extends JFrame {
             }
         });
 
-       
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Back button clicked");
@@ -150,27 +147,23 @@ public class SearchCustomer extends JFrame {
         setVisible(true);
     }
 
-
     public boolean searchCustomer(String size, int qty) {
         boolean isCorrect = false;
-        
+
         isCorrect = true;
         if (size.equals("M")) {
-                    tempMcount += qty;
-         } else if (size.equals("XS")) {
-                    tempXScount += qty;
-                } else if (size.equals("S")) {
-                    tempScount += qty;
-                } else if (size.equals("L")) {
-                    tempLcount += qty;
-                } else if (size.equals("XL")) {
-                    tempXLcount += qty;
-                } else if (size.equals("XXL")) {
-                    tempXXLcount += qty;
-                }
-            
-
-        
+            tempMcount += qty;
+        } else if (size.equals("XS")) {
+            tempXScount += qty;
+        } else if (size.equals("S")) {
+            tempScount += qty;
+        } else if (size.equals("L")) {
+            tempLcount += qty;
+        } else if (size.equals("XL")) {
+            tempXLcount += qty;
+        } else if (size.equals("XXL")) {
+            tempXXLcount += qty;
+        }
 
         Mamount = tempMcount * 900;
         XLamount = tempXLcount * 1100;

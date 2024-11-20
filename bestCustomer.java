@@ -12,6 +12,7 @@ class bestCustomer extends JFrame {
     private Customer[] bestCusarray;
     private int validCount;
     List cusList = new List(100, 0.5);
+    List getBestList = new List(100, 0.5);
 
     bestCustomer(List cus) {
         setSize(400, 400);
@@ -19,6 +20,7 @@ class bestCustomer extends JFrame {
         setDefaultCloseOperation(2);
         setLayout(null);
         setLocationRelativeTo(null);
+        setResizable(false);
 
         JButton Back = new JButton("Back");
         Back.setFont(new Font("Arial", Font.BOLD, 15));
@@ -38,9 +40,9 @@ class bestCustomer extends JFrame {
             String Line = br.readLine();
             while (Line != null) {
                 String[] newar = Line.split(",");
-                Customer cuss = new Customer(newar[0], newar[1], newar[2], Integer.parseInt(newar[3]),
+                cusList.addLast(newar[0], newar[1], newar[2], Integer.parseInt(newar[3]),
                         Double.parseDouble(newar[4]), newar[5]);
-                cusList.add(cuss);
+
                 Line = br.readLine();
             }
         } catch (IOException ex) {
@@ -50,9 +52,11 @@ class bestCustomer extends JFrame {
         String[] colsname = { "Contact", "Qty", "Amount" };
         DefaultTableModel tblm = new DefaultTableModel(colsname, 0);
 
+        node temp = getBestList.start();
         for (int i = 0; i < validCount; i++) {
-            Object[] row = { bestCusarray[i].getNumber(), bestCusarray[i].getQty(), bestCusarray[i].getamount() };
+            Object[] row = {temp.ContactNumber,temp.Qty ,temp.amount};
             tblm.addRow(row);
+            temp=temp.next;
         }
 
         JTable Table = new JTable(tblm);
@@ -63,42 +67,51 @@ class bestCustomer extends JFrame {
     }
 
     public void getBestCustomer() {
-
         boolean[] processed = new boolean[cusList.size()];
-        bestCusarray = new Customer[cusList.size()];
+
+        node temp = cusList.start();
 
         validCount = 0;
         for (int i = 0; i < cusList.size(); i++) {
             if (processed[i]) {
                 continue;
             }
+            node fortemp = temp.next;
 
-            bestCusarray[validCount] = new Customer();
-            int tempqty = cusList.getCustomerAr()[i].getQty();
-            double tempamount = cusList.getCustomerAr()[i].getamount();
+            int tempqty = temp.Qty;
+            double tempamount = temp.amount;
             processed[i] = true;
 
             for (int j = i + 1; j < cusList.size(); j++) {
-                if (cusList.getCustomerAr()[i].getNumber().equals(cusList.getCustomerAr()[j].getNumber())) {
-                    tempqty += cusList.getCustomerAr()[j].getQty();
-                    tempamount += cusList.getCustomerAr()[j].getamount();
+
+                if (temp.ContactNumber.equals(fortemp.ContactNumber)) {
+                    tempqty += fortemp.Qty;
+                    tempamount += fortemp.amount;
                     processed[j] = true;
                 }
+                fortemp = fortemp.next;
             }
 
-            bestCusarray[validCount].setViewReportValues(cusList.getCustomerAr()[i].getNumber(), tempqty, tempamount);
-            System.out.println(Arrays.toString(bestCusarray));
+            
+            getBestList.addLast(temp.ContactNumber,tempqty ,tempamount);
             validCount++;
+            temp = temp.next;
         }
-
+        
+        node sorttemp = getBestList.start();
+        
         for (int i = validCount - 1; i > 0; i--) {
+            node sorttemp2 = sorttemp.next;
             for (int j = 0; j < i; j++) {
-                if (bestCusarray[j].getamount() < bestCusarray[j + 1].getamount()) {
-                    Customer temp = bestCusarray[j + 1];
-                    bestCusarray[j + 1] = bestCusarray[j];
-                    bestCusarray[j] = temp;
+                if (sorttemp.amount < sorttemp2.amount) {
+                    node tempory = sorttemp2;
+                    sorttemp2 = sorttemp;
+                    sorttemp = tempory;
+
                 }
+                sorttemp2=sorttemp2.next;
             }
+            sorttemp = sorttemp.next;
         }
 
     }

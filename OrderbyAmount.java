@@ -17,7 +17,7 @@ class OrderbyAmount extends JFrame {
         setDefaultCloseOperation(2);
         setLayout(null);
         setLocationRelativeTo(null);
-
+        setResizable(false);
 
         JButton back = new JButton("Back");
         back.setFont(new Font("Arial", Font.BOLD, 15));

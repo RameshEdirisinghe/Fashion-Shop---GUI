@@ -8,10 +8,13 @@ import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+
+
 class viewCustomers extends JFrame {
     private Customer[] viewReportarray;
     private int validCount;
     List cusList = new List(100, 0.5);
+    List getviewList = new List(100, 0.5);
 
     viewCustomers(List cus) {
         setTitle("View Customers");
@@ -20,6 +23,7 @@ class viewCustomers extends JFrame {
         setLayout(null);
         setLocationRelativeTo(null);
         getviewCustomers();
+        setResizable(false);
 
         JButton BackButton = new JButton("Back");
         BackButton.setBackground(new Color(255, 102, 102));
@@ -39,10 +43,11 @@ class viewCustomers extends JFrame {
             String Line = br.readLine();
             while (Line != null) {
                 String[] newar = Line.split(",");
-                Customer cuss = new Customer(newar[0], newar[1], newar[2], Integer.parseInt(newar[3]),
-                        Double.parseDouble(newar[4]), newar[5]);
-                cusList.add(cuss);
                 Line = br.readLine();
+                Customer customer = new Customer(newar[0], newar[1], newar[2], Integer.parseInt(newar[3]),
+                Double.parseDouble(newar[4]), newar[5]);
+                cusList.addLast(customer);
+
             }
         } catch (IOException ex) {
         }
@@ -50,10 +55,11 @@ class viewCustomers extends JFrame {
         String[] colnames = { "Number", "Quantity", "Amount" };
         DefaultTableModel dtm = new DefaultTableModel(colnames, 0);
 
+        
         for (int i = 0; i < validCount; i++) {
-            Object[] rowData = { viewReportarray[i].getNumber(), viewReportarray[i].getQty(),
-                    viewReportarray[i].getamount() };
+            Object[] rowData = {temp.ContactNumber,temp.Qty ,temp.amount};
             dtm.addRow(rowData);
+            temp=temp.next;
         }
 
         JTable custable = new JTable(dtm);
@@ -64,32 +70,50 @@ class viewCustomers extends JFrame {
 
     public void getviewCustomers() {
         boolean[] processed = new boolean[cusList.size()];
-        viewReportarray = new Customer[cusList.size()];
+        Customer[] cusarray = cusList.toArray();
+
+        
 
         validCount = 0;
         for (int i = 0; i < cusList.size(); i++) {
             if (processed[i]) {
                 continue;
             }
+            
 
-            viewReportarray[validCount] = new Customer();
-            int tempqty = cusList.getCustomerAr()[i].getQty();
-            double tempamount = cusList.getCustomerAr()[i].getamount();
+            int tempqty = cusarray[i].getQty();
+            double tempamount = cusarray[i].getamount();
             processed[i] = true;
 
             for (int j = i + 1; j < cusList.size(); j++) {
-                if (cusList.getCustomerAr()[i].getNumber().equals(cusList.getCustomerAr()[j].getNumber())) {
-                    tempqty += cusList.getCustomerAr()[j].getQty();
-                    tempamount += cusList.getCustomerAr()[j].getamount();
+
+                if (cusarray[i].getNumber().equals(cusarray[j].getNumber())) {
+                    tempqty += cusarray[j].getQty();
+                    tempamount += cusarray[j].getamount();
                     processed[j] = true;
                 }
+                
             }
 
-            viewReportarray[validCount].setViewReportValues(cusList.getCustomerAr()[i].getNumber(), tempqty,
-                    tempamount);
-            System.out.println(Arrays.toString(viewReportarray));
+            Customer[] viewReportarray = new Customer()
+            getviewList.addLast(cusarray[i].getNumber(),tempqty ,tempamount);
             validCount++;
+            
         }
 
     }
+
+    // public int getqty(){
+    // node temp=start;
+    // int index=0;
+    // while(temp!=null){
+    // if(temp.ContactNumber.equals(ContactNumber)){
+
+    // }
+    // index++;
+    // temp=temp.next;
+    // }
+    // return -1;
+    // }
+
 }

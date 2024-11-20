@@ -19,7 +19,7 @@ class allCustomer extends JFrame {
         setDefaultCloseOperation(2);
         setLocationRelativeTo(null);
         setLayout(null);
-
+        setResizable(false);
 
         
         JButton Back = new JButton("Back");

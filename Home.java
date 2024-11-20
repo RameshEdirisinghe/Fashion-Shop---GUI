@@ -13,6 +13,7 @@ class HomePage extends JFrame {
         setSize(500, 500);
         setDefaultCloseOperation(2);
         setLocationRelativeTo(null);
+        setResizable(false);
 
       
         JPanel mainPanel = new JPanel(null);
